@@ -46,7 +46,7 @@ function Navbar() {
         {/* Logo */}
         <div className="w-20 absolute left-6 md:static">
           <img
-            src="/src/assets/images/mostakan-logo.jpg"
+            src="/src/mostakan-logo.jpg"
             alt="logo"
             className="w-12 object-contain"
           />
