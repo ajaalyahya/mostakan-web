@@ -27,7 +27,7 @@ function Footer() {
           <div className="flex justify-center md:justify-start items-center gap-1">
             <FaInstagram />
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/mostakan.tea?igsh=c3BoMHJrcWw2djdo"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline font-mono text-sm md:text-base "
@@ -64,7 +64,7 @@ function Footer() {
         © 2022 جميع الحقوق محفوظة — صُنع بإستكنان من{" "}
         <a
           className="font-bold hover:underline"
-          href="https://instagram.com"
+          href="https://www.instagram.com/takin_info?igsh=MWV0NmduYnpyaWNxZg%3D%3D"
           target="_blank"
           rel="noopener noreferrer"
         >

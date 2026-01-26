@@ -65,7 +65,7 @@ function Partners() {
           </div>
 
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/tabieah?igsh=dTdrYjhvbWU3NXA3"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-[#1B3220] text-2xl mt-2 md:mt-0"
@@ -92,7 +92,7 @@ function Partners() {
           </div>
 
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/takin_info?igsh=MWV0NmduYnpyaWNxZg=="
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-200 hover:text-[var(--trdColor)] text-2xl mt-2 md:mt-0"
