@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "/src/mostakan-logo.jpg";
 
 function Navbar() {
   const [active, setActive] = useState("home");
@@ -46,7 +47,7 @@ function Navbar() {
         {/* Logo */}
         <div className="w-20 absolute left-6 md:static">
           <img
-            src="/src/mostakan-logo.jpg"
+            src={logo}
             alt="logo"
             className="w-12 object-contain"
           />

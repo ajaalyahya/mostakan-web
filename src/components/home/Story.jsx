@@ -9,6 +9,8 @@ import mint5 from "../../assets/images/mint1.png"
 function StoryParallax() {
   const cupRef = useRef(null)
   const mintRefs = useRef([])
+  const containerRef = useRef(null)
+
 
   mintRefs.current = []
 
@@ -18,55 +20,63 @@ function StoryParallax() {
 
   const mints = [
     { image: mint1, radius: 120, angle: 30, speed: 0.2, size: 25 },
-    { image: mint2, radius: 150, angle: 90, speed: 0.18, size: 26 },
-    { image: mint2, radius: 125, angle: 130, speed: 0.2, size: 30 },
-    { image: mint3, radius: 100, angle: 150, speed: 0.22, size: 22 },
-    { image: mint4, radius: 170, angle: 210, speed: 0.19, size: 30 },
-    { image: mint5, radius: 130, angle: 300, speed: 0.21, size: 24 },
-    { image: mint1, radius: 160, angle: 60, speed: 0.17, size: 18 },
-    { image: mint2, radius: 140, angle: 120, speed: 0.2, size: 22 },
-    { image: mint3, radius: 110, angle: 240, speed: 0.18, size: 30 },
-    { image: mint4, radius: 180, angle: 330, speed: 0.21, size: 20 },
-    { image: mint5, radius: 125, angle: 270, speed: 0.19, size: 18 },
-    { image: mint1, radius: 135, angle: 15, speed: 0.2, size: 20 },
-    { image: mint2, radius: 145, angle: 75, speed: 0.18, size: 18 },
-    { image: mint3, radius: 155, angle: 135, speed: 0.22, size: 22 },
-    { image: mint4, radius: 165, angle: 195, speed: 0.19, size: 30 },
-    { image: mint5, radius: 175, angle: 255, speed: 0.21, size: 20 },
-    { image: mint1, radius: 185, angle: 315, speed: 0.17, size: 18 },
-    { image: mint2, radius: 125, angle: 45, speed: 0.2, size: 22 },
-    { image: mint3, radius: 115, angle: 105, speed: 0.18, size: 35 },
-    { image: mint4, radius: 140, angle: 225, speed: 0.21, size: 25 },
-    { image: mint5, radius: 160, angle: 285, speed: 0.19, size: 24 },
-    { image: mint5, radius: 130, angle: 235, speed: 0.14, size: 23 },
+  { image: mint2, radius: 150, angle: 90, speed: 0.18, size: 26 },
+  { image: mint2, radius: 135, angle: 130, speed: 0.2, size: 30 },
+  { image: mint3, radius: 110, angle: 150, speed: 0.22, size: 22 },
+  { image: mint4, radius: 170, angle: 210, speed: 0.19, size: 30 },
+  { image: mint5, radius: 140, angle: 300, speed: 0.21, size: 24 },
+
+  { image: mint1, radius: 95, angle: 60, speed: 0.17, size: 21 },
+  { image: mint2, radius: 145, angle: 120, speed: 0.2, size: 22 },
+  { image: mint3, radius: 120, angle: 240, speed: 0.18, size: 30 },
+  { image: mint4, radius: 160, angle: 330, speed: 0.21, size: 20 },
+
+  { image: mint5, radius: 130, angle: 270, speed: 0.19, size: 18 },
+  { image: mint1, radius: 110, angle: 15, speed: 0.2, size: 20 },
+  { image: mint2, radius: 140, angle: 75, speed: 0.18, size: 18 },
+  { image: mint3, radius: 155, angle: 135, speed: 0.22, size: 22 },
+  { image: mint4, radius: 165, angle: 195, speed: 0.19, size: 30 },
+
+  { image: mint5, radius: 175, angle: 255, speed: 0.21, size: 20 },
+  { image: mint1, radius: 180, angle: 315, speed: 0.17, size: 18 },
+  { image: mint2, radius: 125, angle: 45, speed: 0.2, size: 22 },
+  { image: mint3, radius: 115, angle: 105, speed: 0.18, size: 35 },
+  { image: mint4, radius: 150, angle: 225, speed: 0.21, size: 25 },
+
+  { image: mint5, radius: 165, angle: 285, speed: 0.19, size: 24 },
+  { image: mint5, radius: 145, angle: 235, speed: 0.14, size: 23 },
   ]
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768
+  const handleScroll = () => {
+    if (!containerRef.current) return
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY
+    const containerWidth = containerRef.current.offsetWidth
+    const isMobile = containerWidth < 420
+    const scrollY = window.scrollY
 
-      mintRefs.current.forEach((mint) => {
-        const radius = parseFloat(mint.dataset.radius)
-        const angle = parseFloat(mint.dataset.angle)
-        const speed = parseFloat(mint.dataset.speed)
+    mintRefs.current.forEach((mint) => {
+      const radius = parseFloat(mint.dataset.radius)
+      const angle = parseFloat(mint.dataset.angle)
+      const speed = parseFloat(mint.dataset.speed)
 
-        const newAngle = angle + scrollY * speed
-        const rad = (newAngle * Math.PI) / 180
+      const radiusMultiplier = isMobile ? 0.7 : 1
+      const finalRadius = radius * radiusMultiplier
 
-        const mobileRadius = isMobile ? radius * 0.9 : radius
+      const newAngle = angle + scrollY * speed
+      const rad = (newAngle * Math.PI) / 180
 
-        const x = mobileRadius * Math.cos(rad) - scrollY * 0.14
-        const y = mobileRadius * Math.sin(rad) - scrollY * 0.05
+      const x = finalRadius * Math.cos(rad)
+      const y = finalRadius * Math.sin(rad) - scrollY * 0.06
 
-        mint.style.transform = `translate(${x}px, ${y}px) rotate(${newAngle}deg)`
-      })
-    }
+      mint.style.transform = `translate(${x}px, ${y}px) rotate(${newAngle}deg)`
+    })
+  }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    }, [])
+
 
   const isMobile = window.innerWidth < 768
 
@@ -98,30 +108,36 @@ function StoryParallax() {
         </div>
 
         {/* الكوب والنعناع */}
-        <div className="relative h-[360px] md:h-[420px] flex items-center justify-center">
+        <div 
+            ref={containerRef}
+            className="relative h-[360px] md:h-[420px] flex items-center justify-center">
           <img
             ref={cupRef}
             src={teaCup}
-            className="w-48 md:w-64 z-10"
+            className="
+            w-48 md:w-64 z-10
+            translate-x-[-4px] translate-y-[-45px]
+            md:translate-x-[20px] md:translate-y-[-10px]"
             alt="استكانة شاي"
           />
 
           {mints.map((mint, idx) => (
             <img
-              key={idx}
-              ref={addMintRef}
-              src={mint.image}
-              data-radius={mint.radius}
-              data-angle={mint.angle}
-              data-speed={mint.speed}
-              className="absolute z-20 will-change-transform"
-              style={{
-                width: `${mint.size}px`,
-                top: isMobile ? "60%" : "25%",
-                left: "90%",
-                transform: `translate(${mint.radius}px, 0) rotate(${mint.angle}deg)`,
-              }}
-              alt=""
+                key={idx}
+                ref={addMintRef}
+                src={mint.image}
+                data-radius={mint.radius}
+                data-angle={mint.angle}
+                data-speed={mint.speed}
+                className="absolute z-20 will-change-transform"
+                style={{
+                    width: `${mint.size}px`,
+                    top: "50%",
+                    left: "50%",
+                    transform: `translate(${mint.radius}px, 0) rotate(${mint.angle}deg)`,
+                    transformOrigin: "center center",
+                }}
+                alt=""
             />
           ))}
         </div>
