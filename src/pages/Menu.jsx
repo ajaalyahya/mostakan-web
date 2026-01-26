@@ -4,25 +4,25 @@ import menuLogo from "../assets/images/menuLogo.png";
 import header from "../assets/images/drinks/menuWall.jpg";
 import Footer from "../components/layout/Footer";
 
-import karkadieh from "../assets/images/drinks/karkadieh.jpg";
-import kho5 from "../assets/images/drinks/5o5.jpg";
-import qory from "../assets/images/drinks/qory-tea.jpg";
-import whiteTea from "../assets/images/drinks/whiteTea.jpg";
-import karak from "../assets/images/drinks/karak.jpg";
-import qoryKarak from "../assets/images/drinks/qory-karak.png";
-import tea from "../assets/images/drinks/tea.jpeg";
-import matcha from "../assets/images/drinks/matcha.PNG";
-import karka1 from "../assets/images/drinks/karkaWall.jpg";
+import karkadieh from "../assets/images/drinks/karkadieh.webp";
+import kho5 from "../assets/images/drinks/5o5.webp";
+import qory from "../assets/images/drinks/qory-tea.webp";
+import whiteTea from "../assets/images/drinks/whiteTea.webp";
+import karak from "../assets/images/drinks/karak.webp";
+import qoryKarak from "../assets/images/drinks/qory-karak.webp";
+import tea from "../assets/images/drinks/tea.webp";
+import matcha from "../assets/images/drinks/matcha.webp";
+import karka1 from "../assets/images/drinks/karkaWall.webp";
 
-import cake from "../assets/images/food/cake.jpg";
-import cheseCake from "../assets/images/food/cheseCake.jpg";
-import choclete from "../assets/images/food/choclete.jpg";
-import nuts from "../assets/images/food/nuts.jpg";
-import senabon from "../assets/images/food/senabon.jpg";
-import tart from "../assets/images/food/tart2.jpg";
-import z3tr from "../assets/images/food/z3tr2.jpg";
-import cakeWall from "../assets/images/food/cakeWall.jpg";
-import baked from "../assets/images/food/baked.PNG";
+import cake from "../assets/images/food/cake.webp";
+import cheseCake from "../assets/images/food/cheseCake.webp";
+import choclete from "../assets/images/food/choclete.webp";
+import nuts from "../assets/images/food/nuts.webp";
+import senabon from "../assets/images/food/senabon.webp";
+import tart from "../assets/images/food/tart2.webp";
+import z3tr from "../assets/images/food/z3tr2.webp";
+import cakeWall from "../assets/images/food/cakeWall.webp";
+import baked from "../assets/images/food/baked.webp";
 
 const categories = [
   { id: null, name: "كامل المنيو" },
