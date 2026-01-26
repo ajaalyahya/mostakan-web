@@ -1,6 +1,28 @@
 import { useState } from "react";
 import ryal from "../assets/images/ryal.png";
+import menuLogo from "../assets/images/menuLogo.png";
+import header from "../assets/images/drinks/menuWall.jpg";
 import Footer from "../components/layout/Footer";
+
+import karkadieh from "../assets/images/drinks/karkadieh.jpg";
+import kho5 from "../assets/images/drinks/5o5.jpg";
+import qory from "../assets/images/drinks/qory-tea.jpg";
+import whiteTea from "../assets/images/drinks/whiteTea.jpg";
+import karak from "../assets/images/drinks/karak.jpg";
+import qoryKarak from "../assets/images/drinks/qory-karak.png";
+import tea from "../assets/images/drinks/tea.jpeg";
+import matcha from "../assets/images/drinks/matcha.PNG";
+import karka1 from "../assets/images/drinks/karkaWall.jpg";
+
+import cake from "../assets/images/food/cake.jpg";
+import cheseCake from "../assets/images/food/cheseCake.jpg";
+import choclete from "../assets/images/food/choclete.jpg";
+import nuts from "../assets/images/food/nuts.jpg";
+import senabon from "../assets/images/food/senabon.jpg";
+import tart from "../assets/images/food/tart2.jpg";
+import z3tr from "../assets/images/food/z3tr2.jpg";
+import cakeWall from "../assets/images/food/cakeWall.jpg";
+import baked from "../assets/images/food/baked.PNG";
 
 const categories = [
   { id: null, name: "كامل المنيو" },
@@ -19,121 +41,154 @@ const items = {
       desc: "شاي كركديه بارد ومنعش",
       price: 19,
       calories: 75,
-      img: "https://picsum.photos/400/300?5",
+      img: karkadieh,
+    },
+    {
+      id: 2,
+      name: "شاي الخوخ المثلج",
+      desc: "شاي خوخ بارد ومنعش",
+      price: 19,
+      calories: 75,
+      img: kho5,
     },
   ],
   offers: [
     {
-      id: 2,
+      id: 3,
       name: "الشاي الأبيض",
       desc: "شاي باي مو تان",
       price: 12,
       calories: 1,
-      img: "https://picsum.photos/400/300?1",
+      img: whiteTea,
     },
     {
-      id: 3,
+      id: 4,
       name: "الشاي الأخضر",
       desc: "شاي أخضر عضوي",
       price: 12,
       calories: 1,
-      img: "https://picsum.photos/400/300?1",
+      img: whiteTea,
     },
   ],
   matcha: [
     {
-      id: 4,
+      id: 5,
       name: "ماتشا لاتيه",
       desc: "ماتشا كريمي مع حليب",
       price: 22,
       calories: 150,
-      img: "https://picsum.photos/400/300?2",
+      img: matcha,
     },
   ],
   hot: [
     {
-      id: 5,
-      name: "كرك مستكن",
-      desc: "كرك غني بنكهة الهيل",
-      price: "10 / 12",
-      calories: 250,
-      img: "https://picsum.photos/400/300?6",
-    },
-    {
       id: 6,
-      name: "قوري كرك",
-      desc: "كرك يقدم بقوري",
-      price: 35,
-      calories: 1000,
-      img: "https://picsum.photos/400/300?7",
-    },
-    {
-      id: 7,
       name: "قوري شاي",
       desc: "شاي أسود يقدم بقوري",
       price: 29,
       calories: 5,
-      img: "https://picsum.photos/400/300?7",
+      img: qory,
     },
     {
-      id: 8,
+      id: 7,
       name: "شاي",
       desc: "شاي كلاسيك",
       price: "6 / 8 / 10",
       calories: 1,
-      img: "https://picsum.photos/400/300?7",
+      img: tea,
+    },
+    {
+      id: 8,
+      name: "قوري كرك",
+      desc: "كرك يقدم بقوري",
+      price: 35,
+      calories: 1000,
+      img: qoryKarak,
+    },
+    {
+      id: 9,
+      name: "كرك مستكن",
+      desc: "كرك غني بنكهة الهيل",
+      price: "10 / 12",
+      calories: 250,
+      img: karak,
     },
   ],
   food: [
-    {
-      id: 9,
-      name: "مخبوزات",
-      desc: "زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",
-      price: 9,
-      calories: 350,
-      img: "https://picsum.photos/400/300?4",
-    },
+      {
+        id: 14,
+        name: "تارت اللوز",
+        desc: "تارت اللوز",
+        price: 9,
+        calories: 140,
+        img: tart,
+      },
+      {
+        id: 16,
+        name: "تشيزكيك مستكن",
+        desc: "تشيزكيك مستكن",
+        price: 9,
+        calories: 140,
+        img: cheseCake,
+      },
+      {
+        id: 17,
+        name: "كيكة شوكلت ",
+        desc: "شوكلت مستكن",
+        price: 9,
+        calories: 140,
+        img: choclete,
+      },
+      {
+        id: 12,
+        name: "سكونز",
+        desc: "سكونز طازج بالزبدة",
+        price: 14,
+        calories: 140,
+        img: cake,
+      },
+      {
+        id: 15,
+        name: "سينابون مستكن",
+        desc: "سينابون مستكن",
+        price: 9,
+        calories: 140,
+        img: senabon,
+      },
+      {
+        id: 11,
+        name: "مخبوزات",
+        desc: "زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",
+        price: 9,
+        calories: 350,
+        img: baked,
+      },
+      {
+        id: 13,
+        name: "كيكة الزعتر",
+        desc: "كيكة زعتر منزلية",
+        price: 9,
+        calories: 140,
+        img: z3tr,
+      },
     {
       id: 10,
-      name: "سكونز",
-      desc: "سكونز طازج بالزبدة",
-      price: 14,
-      calories: 140,
-      img: "https://picsum.photos/400/300?4",
-    },
-    {
-      id: 11,
       name: "مكسرات",
       desc: "مكسرات محمصة مشكلة",
       price: 8,
       calories: 160,
-      img: "https://picsum.photos/400/300?4",
-    },
-    {
-      id: 12,
-      name: "كيكة الزعتر",
-      desc: "كيكة زعتر منزلية",
-      price: 9,
-      calories: 140,
-      img: "https://picsum.photos/400/300?4",
-    },
-    {
-      id: 13,
-      name: "تارت اللوز",
-      desc: "تارت اللوز",
-      price: 9,
-      calories: 140,
-      img: "https://picsum.photos/400/300?4",
-    },
-    {
-      id: 14,
-      name: "سينابون مستكن",
-      desc: "سينابون مستكن",
-      price: 9,
-      calories: 140,
-      img: "https://picsum.photos/400/300?4",
+      img: nuts,
     },
   ],
+};
+
+/* ✅ الإضافة الوحيدة */
+const fullMenuImages = {
+  cold: karka1,
+  offers: whiteTea,
+  matcha: matcha,
+  hot: qory,
+  food: cakeWall,
 };
 
 export default function Menu() {
@@ -142,16 +197,30 @@ export default function Menu() {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="relative h-40 sm:h-48 md:h-56 w-full">
-        <img
-          src="https://picsum.photos/1200/500"
-          className="h-full w-full object-cover"
-          alt="menu header"
-        />
-        <h1 className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl font-bold text-white">
-          قائمة طعام مستكن
-        </h1>
-      </div>
+<div className="relative h-40 sm:h-48 md:h-56 w-full">
+  <img
+    src={header}
+    className="h-full w-full object-cover"
+    alt="menu header"
+  />
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/50"></div>
+
+  {/* المحتوى */}
+  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+    <img
+      src={menuLogo}
+      alt="menu logo"
+      className="w-20 rounded-full sm:w-24 md:w-28 object-contain"
+    />
+
+    <h1 className="text-2xl sm:text-3xl font-bold text-white">
+      قائمة الطعام 
+    </h1>
+  </div>
+</div>
+
 
       {/* Category Bar */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
@@ -175,7 +244,6 @@ export default function Menu() {
       {/* Content */}
       <div className="py-4 px-4 pb-10">
         {activeCategory === null ? (
-          /* كامل المنيو */
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
             {categories
               .filter((c) => c.id !== null)
@@ -186,9 +254,9 @@ export default function Menu() {
                   className="overflow-hidden rounded-2xl bg-white shadow"
                 >
                   <img
-                    src={items[cat.id][0].img}
+                    src={fullMenuImages[cat.id]}   
                     alt={cat.name}
-                    className="h-28 sm:h-32 md:h-36 w-full object-cover"
+                    className="h-28 sm:h-32 md:h-56 w-full object-cover"
                   />
                   <div className="p-3 text-center font-semibold text-sm sm:text-base">
                     {cat.name}
@@ -236,7 +304,7 @@ export default function Menu() {
                 >
                   <img
                     src={item.img}
-                    className="h-36 sm:h-40 md:h-44 w-full object-cover"
+                    className="h-36 sm:h-40 md:h-56 w-full object-cover"
                     alt={item.name}
                   />
                   <div className="p-4 space-y-1 text-right">
@@ -262,6 +330,7 @@ export default function Menu() {
           </>
         )}
       </div>
+
       <Footer />
     </div>
   );

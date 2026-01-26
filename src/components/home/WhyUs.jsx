@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import product1 from "../../assets/images/drinks/Tea.jpeg"
 import product2 from "../../assets/images/food/tart.jpg"
-import product3 from "../../assets/images/food/senabon.jpg"
+import product3 from "../../assets/images/food/senabon2.jpg"
 
 function WhyUs() {
   return (

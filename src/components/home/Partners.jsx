@@ -84,7 +84,7 @@ function Partners() {
 
           <div className="flex-1">
             <h3 className="text-[var(--trdColor)] text-lg md:text-xl font-bold mb-1">
-              تكن
+              تَكِن
             </h3>
             <p className="text-gray-200 text-sm md:text-base">
               شركة تقنية تركز على الابتكار وتطوير الحلول الرقمية الحديثة.

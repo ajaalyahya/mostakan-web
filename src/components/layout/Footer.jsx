@@ -61,14 +61,14 @@ function Footer() {
 
       {/* الخط السفلي */}
       <div className="border-t border-white/20 mt-10 md:mt-12 pt-5 text-center text-xs md:text-sm text-gray-200 px-4">
-        © 2022 جميع الحقوق محفوظة — صُنع بكل ❤️ من{" "}
+        © 2022 جميع الحقوق محفوظة — صُنع بإستكنان من{" "}
         <a
           className="font-bold hover:underline"
           href="https://instagram.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          تكن
+          تَكِن
         </a>
       </div>
     </footer>

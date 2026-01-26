@@ -1,4 +1,4 @@
-import heroBg from "../../assets/images/drinks/Tea.jpeg";
+import heroBg from "../../assets/images/hero.jpg";
 import { Link } from "react-router-dom";
 
 function Hero() {

@@ -87,7 +87,7 @@ function StoryParallax() {
     >
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
         {/* النص */}
-        <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg z-10 mx-auto text-center md:text-right">
+        <div className="bg-white mr-50 p-8 md:p-10 rounded-2xl shadow-lg z-10 mx-auto text-center md:text-right">
           <h2 className="text-3xl text-[var(--firColor)] font-bold mb-6">
             قصتنا
           </h2>
