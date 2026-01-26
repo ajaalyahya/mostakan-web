@@ -115,62 +115,62 @@ const items = {
     },
   ],
   food: [
-      {
-        id: 14,
-        name: "تارت اللوز",
-        desc: "تارت اللوز",
-        price: 9,
-        calories: 140,
-        img: tart,
-      },
-      {
-        id: 16,
-        name: "تشيزكيك مستكن",
-        desc: "تشيزكيك مستكن",
-        price: 9,
-        calories: 140,
-        img: cheseCake,
-      },
-      {
-        id: 17,
-        name: "كيكة شوكلت ",
-        desc: "شوكلت مستكن",
-        price: 9,
-        calories: 140,
-        img: choclete,
-      },
-      {
-        id: 12,
-        name: "سكونز",
-        desc: "سكونز طازج بالزبدة",
-        price: 14,
-        calories: 140,
-        img: cake,
-      },
-      {
-        id: 15,
-        name: "سينابون مستكن",
-        desc: "سينابون مستكن",
-        price: 9,
-        calories: 140,
-        img: senabon,
-      },
-      {
-        id: 11,
-        name: "مخبوزات",
-        desc: "زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",
-        price: 9,
-        calories: 350,
-        img: baked,
-      },
-      {
-        id: 13,
-        name: "كيكة الزعتر",
-        desc: "كيكة زعتر منزلية",
-        price: 9,
-        calories: 140,
-        img: z3tr,
-      },
+    {
+      id: 14,
+      name: "تارت اللوز",
+      desc: "تارت اللوز",
+      price: 9,
+      calories: 140,
+      img: tart,
+    },
+    {
+      id: 16,
+      name: "تشيزكيك مستكن",
+      desc: "تشيزكيك مستكن",
+      price: 9,
+      calories: 140,
+      img: cheseCake,
+    },
+    {
+      id: 17,
+      name: "كيكة شوكلت ",
+      desc: "شوكلت مستكن",
+      price: 9,
+      calories: 140,
+      img: choclete,
+    },
+    {
+      id: 12,
+      name: "سكونز",
+      desc: "سكونز طازج بالزبدة",
+      price: 14,
+      calories: 140,
+      img: cake,
+    },
+    {
+      id: 15,
+      name: "سينابون مستكن",
+      desc: "سينابون مستكن",
+      price: 9,
+      calories: 140,
+      img: senabon,
+    },
+    {
+      id: 11,
+      name: "مخبوزات",
+      desc: "زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",
+      price: 9,
+      calories: 350,
+      img: baked,
+    },
+    {
+      id: 13,
+      name: "كيكة الزعتر",
+      desc: "كيكة زعتر منزلية",
+      price: 9,
+      calories: 140,
+      img: z3tr,
+    },
     {
       id: 10,
       name: "مكسرات",
@@ -182,7 +182,6 @@ const items = {
   ],
 };
 
-/* ✅ الإضافة الوحيدة */
 const fullMenuImages = {
   cold: karka1,
   offers: whiteTea,
@@ -197,30 +196,28 @@ export default function Menu() {
   return (
     <div className="w-full">
       {/* Header */}
-<div className="relative h-40 sm:h-48 md:h-56 w-full">
-  <img
-    src={header}
-    className="h-full w-full object-cover"
-    alt="menu header"
-  />
+      <div className="relative h-40 sm:h-48 md:h-56 w-full">
+        <img
+          src={header}
+          className="h-full w-full object-cover"
+          alt="menu header"
+        />
 
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/50"></div>
 
-  {/* المحتوى */}
-  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
-    <img
-      src={menuLogo}
-      alt="menu logo"
-      className="w-20 rounded-full sm:w-24 md:w-28 object-contain"
-    />
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+          <img
+            src={menuLogo}
+            alt="menu logo"
+            loading="lazy"
+            className="w-20 rounded-full sm:w-24 md:w-28 object-contain"
+          />
 
-    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-      قائمة الطعام 
-    </h1>
-  </div>
-</div>
-
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">
+            قائمة الطعام
+          </h1>
+        </div>
+      </div>
 
       {/* Category Bar */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
@@ -254,7 +251,8 @@ export default function Menu() {
                   className="overflow-hidden rounded-2xl bg-white shadow"
                 >
                   <img
-                    src={fullMenuImages[cat.id]}   
+                    src={fullMenuImages[cat.id]}
+                    loading="lazy"
                     alt={cat.name}
                     className="h-28 sm:h-32 md:h-56 w-full object-cover"
                   />
@@ -266,7 +264,7 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {/* ===== الجوال فقط ===== */}
+            {/* الجوال */}
             <div className="grid grid-cols-2 gap-4 sm:hidden">
               {items[activeCategory]?.map((item) => (
                 <div
@@ -275,6 +273,7 @@ export default function Menu() {
                 >
                   <img
                     src={item.img}
+                    loading="lazy"
                     alt={item.name}
                     className="h-28 w-full object-cover"
                   />
@@ -285,7 +284,7 @@ export default function Menu() {
                     </p>
                     <div className="flex justify-center items-center gap-1 font-bold text-[var(--secColor)]">
                       {item.price}
-                      <img src={ryal} alt="SAR" className="h-3 w-3" />
+                      <img src={ryal} loading="lazy" alt="SAR" className="h-3 w-3" />
                     </div>
                     <div className="text-[10px] text-gray-400">
                       {item.calories} سعرة
@@ -295,7 +294,7 @@ export default function Menu() {
               ))}
             </div>
 
-            {/* ===== التابلت + الدسكتوب ===== */}
+            {/* التابلت + الدسكتوب */}
             <div className="hidden sm:grid grid-cols-2 gap-4 lg:grid-cols-3">
               {items[activeCategory]?.map((item) => (
                 <div
@@ -304,6 +303,7 @@ export default function Menu() {
                 >
                   <img
                     src={item.img}
+                    loading="lazy"
                     className="h-36 sm:h-40 md:h-56 w-full object-cover"
                     alt={item.name}
                   />
@@ -317,7 +317,7 @@ export default function Menu() {
                     <div className="mt-2 flex justify-between items-center">
                       <div className="font-bold text-lg sm:text-xl text-[var(--secColor)] flex items-center gap-1">
                         {item.price}
-                        <img src={ryal} alt="SAR" className="h-4 w-4" />
+                        <img src={ryal} loading="lazy" alt="SAR" className="h-4 w-4" />
                       </div>
                       <div className="text-[10px] sm:text-xs text-gray-400">
                         {item.calories} سعرة
