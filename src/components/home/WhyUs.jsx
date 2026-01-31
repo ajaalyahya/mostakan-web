@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import product1 from "../../assets/images/drinks/tea.jpeg"
+import product1 from "../../assets/images/drinks/qorytea.jpg"
 import product2 from "../../assets/images/drinks/lemon.png"
 import product3 from "../../assets/images/food/senabon2.jpg"
 

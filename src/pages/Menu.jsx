@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import ryal from "../assets/images/ryal.png";
 import menuLogo from "../assets/images/menuLogo.png";
-import header from "../assets/images/drinks/menuWall.jpg";
+import header from "../assets/images/menuHeader.mp4";
 import Footer from "../components/layout/Footer";
 
 import karkadieh from "../assets/images/drinks/karkadieh.webp";
@@ -198,11 +198,14 @@ export default function Menu() {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="relative h-40 sm:h-48 md:h-56 w-full">
-        <img
-          src={header}
-          className="h-full w-full object-cover"
-          alt="menu header"
+      <div className="relative h-40 sm:h-48 md:h-56 w-full overflow-hidden">
+        <video
+          src={header} // استخدم MP4
+          className="h-full w-full object-cover object-top scale-105 transition-transform duration-[20000ms] ease-in-out"
+          autoPlay
+          loop
+          muted
+          playsInline
         />
 
         <div className="absolute inset-0 bg-black/50"></div>
@@ -268,35 +271,40 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {/* الجوال */}
-            <div className="grid grid-cols-2 gap-4 sm:hidden">
-              {items[activeCategory]?.map((item) => (
-                <div
-                  key={item.id}
-                  className="overflow-hidden rounded-2xl bg-white shadow"
-                >
-                  <img
-                    src={item.img}
-                    loading="lazy"
-                    alt={item.name}
-                    className="h-28 w-full object-cover"
-                  />
-                  <div className="p-3 text-center space-y-1">
-                    <h3 className="font-semibold text-sm">{item.name}</h3>
-                    <p className="text-[11px] text-gray-500 line-clamp-2">
-                      {item.desc}
-                    </p>
-                    <div className="flex justify-center items-center gap-1 font-bold text-[var(--secColor)]">
-                      {item.price}
-                      <img src={ryal} loading="lazy" alt="SAR" className="h-3 w-3" />
-                    </div>
-                    <div className="text-[10px] text-gray-400">
-                      {item.calories} سعرة حرارية
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+           {/* الجوال */}
+<div className="grid grid-cols-2 gap-4 sm:hidden">
+  {items[activeCategory]?.map((item) => (
+    <div
+      key={item.id}
+      className="overflow-hidden rounded-2xl bg-white shadow flex flex-col"
+    >
+      <img
+        src={item.img}
+        loading="lazy"
+        alt={item.name}
+        className="h-28 w-full object-cover"
+      />
+      <div className="p-3 text-center space-y-1 flex flex-col flex-1">
+        <h3 className="font-semibold text-sm">{item.name}</h3>
+        <p className="text-[11px] text-gray-500 line-clamp-2 flex-1">
+          {item.desc}
+        </p>
+
+        {/* السعر والسعرات مثبتين بأسفل الكرت */}
+        <div className="mt-auto space-y-1">
+          <div className="flex justify-center items-center gap-1 font-bold text-[var(--secColor)]">
+            {item.price}
+            <img src={ryal} loading="lazy" alt="SAR" className="h-3 w-3" />
+          </div>
+          <div className="text-[10px] text-gray-400">
+            {item.calories} سعرة حرارية
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
 
             {/* التابلت + الدسكتوب */}
             <div className="hidden sm:grid grid-cols-2 gap-4 lg:grid-cols-3">
