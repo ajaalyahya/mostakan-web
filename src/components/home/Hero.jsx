@@ -1,26 +1,29 @@
-import heroBg from "../../assets/images/hero.jpg";
+import heroBg from "../../assets/images/hero3.png";
 import { Link } from "react-router-dom";
 
 function Hero() {
   return (
     <section
       id="home"
-      className="h-screen bg-center bg-cover relative bg-scroll md:bg-fixed overflow-x-hidden"
+      className="h-screen bg-center bg-cover
+         relative bg-scroll md:bg-fixed overflow-x-hidden"
 
       style={{ backgroundImage: `url(${heroBg})` }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className=""></div>
 
       {/* Content */}
       <div className="relative z-10 flex items-center justify-center min-h-[100svh] px-6 text-white text-center">
         <div>
           <h1 className="font-bold mb-4 text-3xl sm:text-4xl md:text-5xl">
-            أهلاً بكم
+            المَجلِسُ الأَحسائِيّ
           </h1>
 
-          <p className="mb-6 text-sm sm:text-base md:text-lg">
-            نسعد لكوننا الأكثر تميزاً في قطاع, الشاي ومقصدٌ لرواده فنحن نعد الكل بعيش تجربة مثالية خادرةٌ بتفاصيلها.
+          <p className="mb-6 text-sm sm:text-base md:text-lg bg-[#243C2C]/50 px-3 rounded-full">
+             لا نكل في سعينا لتقديم شاي عالي الجودة، 
+            مع جعل عملاؤنا يشعرون وكأنهم يعودون إلى المنزل عند دخولهم أحد
+            فروعنا   
           </p>
 
           <Link
@@ -37,7 +40,7 @@ function Hero() {
               hover:text-[var(--trdColor)]
             "
           >
-            تصفح المنيو
+            تصفح القائمة
           </Link>
         </div>
       </div>

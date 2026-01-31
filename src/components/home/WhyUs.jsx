@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
 import product1 from "../../assets/images/drinks/tea.jpeg"
-import product2 from "../../assets/images/food/tart.jpg"
+import product2 from "../../assets/images/drinks/lemon.png"
 import product3 from "../../assets/images/food/senabon2.jpg"
 
 function WhyUs() {
   return (
-    <section className="py-16 md:py-20 bg-[var(--whiteColor)] text-center">
+    <section className="py-16 md:py-20 bg-[#fffefb] text-center">
       {/* العنوان */}
       <h2 className="text-2xl md:text-4xl font-bold mb-10 md:mb-12 text-[var(--firColor)]">
         أبرز المنتجات
@@ -21,10 +21,10 @@ function WhyUs() {
             className="w-full h-40 md:h-40 object-cover mb-4 rounded-lg"
           />
           <h3 className="text-lg md:text-xl font-semibold mb-3 text-[var(--firColor)]">
-            شاي مستكن
+            قوري شاي 
           </h3>
           <p className="text-sm md:text-base text-gray-600">
-            هذا وصف المنتج 1 ويشرح مميزاته بطريقة مختصرة وجذابة.
+            قوري الشاي الخادر بنكهته الأصيلة وجودته المختارة بعناية.
           </p>
         </div>
 
@@ -36,10 +36,10 @@ function WhyUs() {
             className="w-full h-40 md:h-40 object-cover mb-4 rounded-lg"
           />
           <h3 className="text-lg md:text-xl font-semibold mb-3 text-[var(--firColor)]">
-            تارت اللوز
+            شاي الليمون المثلج
           </h3>
           <p className="text-sm md:text-base text-gray-600">
-            هذا وصف المنتج 2 ويشرح مميزاته بطريقة مختصرة وجذابة.
+            شاي ليمون مثلج و منعش لكل وقت.
           </p>
         </div>
 
@@ -51,10 +51,10 @@ function WhyUs() {
             className="w-full h-40 md:h-40 object-cover mb-4 rounded-lg"
           />
           <h3 className="text-lg md:text-xl font-semibold mb-3 text-[var(--firColor)]">
-            سينابون مستكن
+            سينامون بايتس 
           </h3>
           <p className="text-sm md:text-base text-gray-600">
-            هذا وصف المنتج 3 ويشرح مميزاته بطريقة مختصرة وجذابة.
+            سينامون طري يُحضَّر بإتقان ليكمل لحظاتكم المميزة.
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ function WhyUs() {
           to="/menu"
           className="inline-block bg-[var(--firColor)] text-[var(--trdColor)] font-bold px-8 md:px-10 py-3 md:py-4 rounded-full hover:bg-[var(--secColor)] transition"
         >
-          تصفح المنيو
+          تصفح القائمة
         </Link>
       </div>
     </section>

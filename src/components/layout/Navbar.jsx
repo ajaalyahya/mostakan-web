@@ -69,7 +69,6 @@ function Navbar() {
           </Link>
 
           <a href="#story" className={linkClass("story")}>قصتنا</a>
-          <a href="#partners" className={linkClass("partners")}>من نحن</a>
           <a href="#contact" className={linkClass("contact")}>للتواصل</a>
         </div>
 
@@ -105,10 +104,6 @@ function Navbar() {
 
               <a href="#story" onClick={() => setOpen(false)} className="font-bold text-white">
                 قصتنا
-              </a>
-
-              <a href="#partners" onClick={() => setOpen(false)} className="font-bold text-white">
-                من نحن
               </a>
 
               <a href="#contact" onClick={() => setOpen(false)} className="font-bold text-white">

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import ryal from "../assets/images/ryal.png";
 import menuLogo from "../assets/images/menuLogo.png";
 import header from "../assets/images/drinks/menuWall.jpg";
@@ -6,12 +8,13 @@ import Footer from "../components/layout/Footer";
 
 import karkadieh from "../assets/images/drinks/karkadieh.webp";
 import kho5 from "../assets/images/drinks/5o5.webp";
+import lemon from "../assets/images/drinks/lemon.png";
 import qory from "../assets/images/drinks/qory-tea.webp";
 import whiteTea from "../assets/images/drinks/whiteTea.webp";
 import karak from "../assets/images/drinks/karak.webp";
 import qoryKarak from "../assets/images/drinks/qory-karak.webp";
 import tea from "../assets/images/drinks/tea.webp";
-import matcha from "../assets/images/drinks/matcha.webp";
+import matcha from "../assets/images/drinks/matcha3.jpg";
 import karka1 from "../assets/images/drinks/karkaWall.webp";
 
 import cake from "../assets/images/food/cake.webp";
@@ -25,12 +28,11 @@ import cakeWall from "../assets/images/food/cakeWall.webp";
 import baked from "../assets/images/food/baked.webp";
 
 const categories = [
-  { id: null, name: "كامل المنيو" },
+  { id: null, name: "القائمة" },
   { id: "cold", name: "شاي مثلج" },
-  { id: "offers", name: "شاي مختص" },
-  { id: "matcha", name: "ماتشا" },
   { id: "hot", name: "شاي ساخن" },
   { id: "food", name: "مأكولات" },
+  { id: "offers", name: "شاي مختص" },
 ];
 
 const items = {
@@ -40,7 +42,7 @@ const items = {
       name: "شاي الكركديه المثلج",
       desc: "شاي كركديه بارد ومنعش",
       price: 19,
-      calories: 75,
+      calories: 81,
       img: karkadieh,
     },
     {
@@ -51,18 +53,34 @@ const items = {
       calories: 75,
       img: kho5,
     },
-  ],
-  offers: [
     {
       id: 3,
-      name: "الشاي الأبيض",
-      desc: "شاي باي مو تان",
-      price: 12,
-      calories: 1,
-      img: whiteTea,
+      name: "شاي الليمون المثلج",
+      desc: "شاي ليمون بارد ومنعش",
+      price: 19,
+      calories: 89,
+      img: lemon,
     },
     {
       id: 4,
+      name: "ماتشا لاتيه",
+      desc: "مذاق الماتشا الأصلي",
+      price: 22,
+      calories: 150,
+      img: matcha,
+    },
+  ],
+  offers: [
+    {
+      id: 5,
+      name: "الشاي الأبيض",
+      desc: "شاي أبيض عضوي",
+      price: 12,
+      calories: 2,
+      img: whiteTea,
+    },
+    {
+      id: 6,
       name: "الشاي الأخضر",
       desc: "شاي أخضر عضوي",
       price: 12,
@@ -71,34 +89,26 @@ const items = {
     },
   ],
   matcha: [
-    {
-      id: 5,
-      name: "ماتشا لاتيه",
-      desc: "ماتشا كريمي مع حليب",
-      price: 22,
-      calories: 150,
-      img: matcha,
-    },
   ],
   hot: [
     {
-      id: 6,
+      id: 7,
       name: "قوري شاي",
-      desc: "شاي أسود يقدم بقوري",
+      desc: "شاي خادر يقدم بقوري",
       price: 29,
       calories: 5,
       img: qory,
     },
     {
-      id: 7,
+      id: 8,
       name: "شاي",
-      desc: "شاي كلاسيك",
+      desc: "شاي خادر بنكهته الأصيلة",
       price: "6 / 8 / 10",
       calories: 1,
       img: tea,
     },
     {
-      id: 8,
+      id: 9,
       name: "قوري كرك",
       desc: "كرك يقدم بقوري",
       price: 35,
@@ -106,9 +116,9 @@ const items = {
       img: qoryKarak,
     },
     {
-      id: 9,
-      name: "كرك مستكن",
-      desc: "كرك غني بنكهة الهيل",
+      id: 10,
+      name: "كرك ",
+      desc: "كرك غني بنكهته الأصلية",
       price: "10 / 12",
       calories: 250,
       img: karak,
@@ -116,47 +126,39 @@ const items = {
   ],
   food: [
     {
-      id: 14,
+      id: 11,
       name: "تارت اللوز",
-      desc: "تارت اللوز",
-      price: 9,
-      calories: 140,
+      desc: "تارت اللوز بلمسة متقنة ونكهة متوازنة",
+      price: 18,
+      calories: 400,
       img: tart,
     },
     {
-      id: 16,
-      name: "تشيزكيك مستكن",
-      desc: "تشيزكيك مستكن",
-      price: 9,
-      calories: 140,
-      img: cheseCake,
-    },
-    {
-      id: 17,
-      name: "كيكة شوكلت ",
-      desc: "شوكلت مستكن",
-      price: 9,
-      calories: 140,
+      id: 13,
+      name: " براونيز ",
+      desc: "شوكلاتة بطعمها الفريد",
+      price: 17,
+      calories: 320,
       img: choclete,
     },
     {
-      id: 12,
+      id: 14,
       name: "سكونز",
-      desc: "سكونز طازج بالزبدة",
+      desc: "بسكوت بريطاني بالجبن والمربى",
       price: 14,
-      calories: 140,
+      calories: 230,
       img: cake,
     },
     {
       id: 15,
-      name: "سينابون مستكن",
-      desc: "سينابون مستكن",
-      price: 9,
-      calories: 140,
+      name: " سينامون بايتس",
+      desc: "سينامون طري يُحضَّر بإتقان ليكمل لحظاتكم المميزة ",
+      price: 25,
+      calories: 460,
       img: senabon,
     },
     {
-      id: 11,
+      id: 16,
       name: "مخبوزات",
       desc: "زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",
       price: 9,
@@ -164,17 +166,17 @@ const items = {
       img: baked,
     },
     {
-      id: 13,
+      id: 17,
       name: "كيكة الزعتر",
-      desc: "كيكة زعتر منزلية",
+      desc: "كيكة زعتر بحشوة الجبن",
       price: 9,
       calories: 140,
       img: z3tr,
     },
     {
-      id: 10,
+      id: 18,
       name: "مكسرات",
-      desc: "مكسرات محمصة مشكلة",
+      desc: "مكسرات مشكلة",
       price: 8,
       calories: 160,
       img: nuts,
@@ -206,12 +208,14 @@ export default function Menu() {
         <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
-          <img
+          <Link to="/" className="inline-block transition">
+            <img
             src={menuLogo}
             alt="menu logo"
             loading="lazy"
             className="w-20 rounded-full sm:w-24 md:w-28 object-contain"
           />
+          </Link>
 
           <h1 className="text-2xl sm:text-3xl font-bold text-white">
             قائمة الطعام
@@ -287,7 +291,7 @@ export default function Menu() {
                       <img src={ryal} loading="lazy" alt="SAR" className="h-3 w-3" />
                     </div>
                     <div className="text-[10px] text-gray-400">
-                      {item.calories} سعرة
+                      {item.calories} سعرة حرارية
                     </div>
                   </div>
                 </div>
@@ -320,7 +324,7 @@ export default function Menu() {
                         <img src={ryal} loading="lazy" alt="SAR" className="h-4 w-4" />
                       </div>
                       <div className="text-[10px] sm:text-xs text-gray-400">
-                        {item.calories} سعرة
+                        {item.calories}  سعرة حرارية
                       </div>
                     </div>
                   </div>

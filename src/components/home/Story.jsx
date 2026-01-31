@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import teaCup from "../../assets/images/story.png"
+import teaCup from "../../assets/images/gptea.png"
 import mint1 from "../../assets/images/mint1.png"
 import mint2 from "../../assets/images/mint2.png"
 import mint3 from "../../assets/images/mint1.png"
@@ -19,7 +19,7 @@ function StoryParallax() {
   }
 
   const mints = [
-    { image: mint1, radius: 120, angle: 30, speed: 0.2, size: 25 },
+  { image: mint1, radius: 120, angle: 30, speed: 0.2, size: 25 },
   { image: mint2, radius: 150, angle: 90, speed: 0.18, size: 26 },
   { image: mint2, radius: 135, angle: 130, speed: 0.2, size: 30 },
   { image: mint3, radius: 110, angle: 150, speed: 0.22, size: 22 },
@@ -85,16 +85,16 @@ function StoryParallax() {
       id="story"
       className="py-12 px-6 md:px-40 bg-amber-50 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-26 items-center">
         {/* النص */}
         <div className="bg-white mr-50 p-8 md:p-10 rounded-2xl shadow-lg z-10 mx-auto text-center md:text-right">
           <h2 className="text-3xl text-[var(--firColor)] font-bold mb-6">
             قصتنا
           </h2>
           <p className="text-gray-700 leading-relaxed">
-            في مستكن، الشاي أكثر من مجرد مشروب.
-            هو لحظة هدوء واستكنان، نحضر كل كوب بعناية
-            من أجود المكونات لترافق يومك وتبهج روحك.
+               موجودين عشان نكون مقصد لمحبي الشاي ولكل من يرغب
+              في المرور بتجربة فريدة تتميز ببساطتها وإرتباطها بهويتنا المحلية, نسعى لتقديم
+              رحلة رائعة وجديرة بالثقة لتجربة الشاي والمخبوزات المصاحبة له.
           </p>
 
           <a
@@ -108,39 +108,48 @@ function StoryParallax() {
         </div>
 
         {/* الكوب والنعناع */}
-        <div 
-            ref={containerRef}
-            className="relative h-[360px] md:h-[420px] flex items-center justify-center">
-          <img
-            ref={cupRef}
-            src={teaCup}
-            className="
-            w-48 md:w-64 z-10
-            translate-x-[-4px] translate-y-[-45px]
-            md:translate-x-[20px] md:translate-y-[-10px]"
-            alt="استكانة شاي"
-          />
+<div
+  ref={containerRef}
+  className="
+    relative h-[360px] md:h-[420px]
+    flex items-center 
+    justify-center md:justify-end
+  "
+>
+  <img
+    ref={cupRef}
+    src={teaCup}
+    className="
+      w-64 md:w-96 z-10
+      translate-x-[0] md:translate-x-[-30px] 
+      translate-y-[-20px]
+    "
+    alt="استكانة شاي"
+  />
 
-          {mints.map((mint, idx) => (
-            <img
-                key={idx}
-                ref={addMintRef}
-                src={mint.image}
-                data-radius={mint.radius}
-                data-angle={mint.angle}
-                data-speed={mint.speed}
-                className="absolute z-20 will-change-transform"
-                style={{
-                    width: `${mint.size}px`,
-                    top: "50%",
-                    left: "50%",
-                    transform: `translate(${mint.radius}px, 0) rotate(${mint.angle}deg)`,
-                    transformOrigin: "center center",
-                }}
-                alt=""
-            />
-          ))}
-        </div>
+  {mints.map((mint, idx) => (
+  <img
+    key={idx}
+    ref={addMintRef}
+    src={mint.image}
+    data-radius={mint.radius}
+    data-angle={mint.angle}
+    data-speed={mint.speed}
+    className="absolute z-20 will-change-transform"
+    style={{
+      width: `${mint.size}px`,
+      top: window.innerWidth < 768 ? "55%" : "50%",
+      // responsive left: الجوال 50% والدسكتوب 26%
+      left: window.innerWidth < 768 ? "50%" : "26%",
+      transform: `translate(${mint.radius}px, 0) rotate(${mint.angle}deg)`,
+      transformOrigin: "center center",
+    }}
+    alt=""
+  />
+))}
+
+</div>
+
       </div>
     </section>
   )
