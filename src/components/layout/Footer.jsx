@@ -1,7 +1,7 @@
 import { FaInstagram, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa"
 import { Link, useLocation } from "react-router-dom";
 
-import logo from "../../mostakan-logo.jpg"
+import logo from "../../assets/images/mostakanMain.png"
 function Footer() {
   return (
     <footer

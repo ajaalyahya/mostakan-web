@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import ryal from "../assets/images/ryal.png";
-import menuLogo from "../assets/images/menuLogo.png";
+import menuLogo from "../assets/images/mostakanMain.png";
 import header from "../assets/images/menuHeader.mp4";
 import Footer from "../components/layout/Footer";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "/src/mostakan-logo.jpg";
+import logo from "/src/assets/images/mostakanMain.png";
 
 function Navbar() {
   const [active, setActive] = useState("home");
