@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import ryal from "../assets/images/ryal.png";
 import menuLogo from "../assets/images/mostakanMain.png";
-import header from "../assets/images/menuHeader.mp4";
+import header from "../assets/images/menuHeader2.mp4";
 import Footer from "../components/layout/Footer";
 
 import karkadieh from "../assets/images/drinks/karkadieh.webp";
@@ -106,14 +106,6 @@ const items = {
       price: "6 / 8 / 10",
       calories: 1,
       img: tea,
-    },
-    {
-      id: 9,
-      name: "قوري كرك",
-      desc: "كرك يقدم بقوري",
-      price: 35,
-      calories: 1000,
-      img: qoryKarak,
     },
     {
       id: 10,
@@ -221,7 +213,7 @@ export default function Menu() {
           </Link>
 
           <h1 className="text-2xl sm:text-3xl font-bold text-white">
-            قائمة الطعام
+            القائمة 
           </h1>
         </div>
       </div>

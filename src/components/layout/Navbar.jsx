@@ -39,7 +39,7 @@ function Navbar() {
     }`;
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[var(--secColor)] text-white shadow-md">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[var(--secColor)] text-white shadow-xl">
       
       {/* ===== Top Bar ===== */}
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-6 px-6 h-12 relative">

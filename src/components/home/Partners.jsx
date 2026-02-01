@@ -1,7 +1,7 @@
 import { FaInstagram, FaTwitter } from "react-icons/fa"
 
 import mostakan from "../../assets/images/mostakan.jpg"
-import nature from "../../assets/images/tabieah.jpg"
+import nature from "../../assets/images/tbLogo.png"
 import tech from "../../assets/images/takin.jpg"
 import { FaXTwitter } from "react-icons/fa6"
 
@@ -22,7 +22,7 @@ function Partners() {
       <div className="max-w-5xl mx-auto flex flex-col gap-6 md:gap-8 px-6">
 
         {/* شركة 2 */}
-        <div className="bg-white flex flex-col md:flex-row items-center gap-4 md:gap-6 border rounded-lg p-6 shadow-sm hover:shadow-md transition text-center md:text-right">
+        <div className="bg-[#11321d] flex flex-col md:flex-row items-center gap-4 md:gap-6 border rounded-lg p-6 shadow-sm hover:shadow-md transition text-center md:text-right">
           <img
             src={nature}
             alt="طبيعة"
@@ -30,10 +30,10 @@ function Partners() {
           />
 
           <div className="flex-1">
-            <h3 className="text-[#1B3220] text-lg md:text-xl font-bold mb-1">
+            <h3 className="text-white text-lg md:text-xl font-bold mb-1">
               طبيعة
             </h3>
-            <p className="text-gray-600 text-sm md:text-base">
+            <p className="text-gray-200 text-sm md:text-base">
               خبراء في زراعة ورعاية الحدائق, نحو جودة حياة أفضل.
             </p>
           </div>
@@ -42,10 +42,10 @@ function Partners() {
             href="https://www.instagram.com/tabieah?igsh=dTdrYjhvbWU3NXA3"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center text-gray-200 hover:text-[#1B3220] text-2xl mt-2 md:mt-0"
+            className="flex flex-col items-center text-white hover:text-gray-300 text-2xl mt-2 md:mt-0"
           >
             <FaInstagram />
-            <span className="text-gray-200 text-sm md:text-base mt-1">
+            <span className="text-white hover:text-gray-300 text-sm md:text-base mt-1">
               tabieah
             </span>
           </a>
@@ -60,7 +60,7 @@ function Partners() {
           />
 
           <div className="flex-1">
-            <h3 className="text-[var(--trdColor)] text-lg md:text-xl font-bold mb-1">
+            <h3 className="text-white text-lg md:text-xl font-bold mb-1">
               تَكِن
             </h3>
             <p className="text-gray-200 text-sm md:text-base">
@@ -75,7 +75,7 @@ function Partners() {
             className="flex flex-col items-center text-gray-200 hover:text-[var(--trdColor)] text-2xl mt-2 md:mt-0"
           >
             <FaXTwitter />
-            <span className="text-gray-200 text-sm md:text-base mt-1">
+            <span className="text-gray-200 hover:text-[var(--trdColor)] text-sm md:text-base mt-1">
               takin_info
             </span>
           </a>
