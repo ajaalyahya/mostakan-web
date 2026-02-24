@@ -5,6 +5,21 @@ import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import Navbar from "./components/layout/Navbar";
 
+// ✅ تتبع Google Analytics
+function AnalyticsTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag("config", "G-H9GF4C67EJ", {
+        page_path: location.pathname,
+      });
+    }
+  }, [location]);
+
+  return null;
+}
+
 // ScrollToTop component
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -21,7 +36,11 @@ function Layout() {
 
   return (
     <>
-      <ScrollToTop /> {/* هنا فقط أضفنا التمرير لأعلى */}
+      {/* تتبع الصفحات */}
+      <AnalyticsTracker />
+
+      {/* التمرير للأعلى */}
+      <ScrollToTop />
 
       {/* النافبار يظهر فقط في الهوم */}
       {location.pathname === "/" && <Navbar />}
