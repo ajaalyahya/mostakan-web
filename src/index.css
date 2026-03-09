@@ -44,3 +44,10 @@ html, body {
   box-sizing: border-box;
 }
 
+[dir="ltr"] .text-right {
+  text-align: left;
+}
+
+[dir="ltr"] .md\:text-right {
+  text-align: left;
+}
