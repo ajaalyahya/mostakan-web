@@ -1,4 +1,7 @@
-// src/pages/Menu.jsx
+// src/pages/AramcoMenu.jsx
+// 🔧 هذي الصفحة عندك بس — مو مربوطة في الموقع الحالي
+// لما العميل يطلبها: أضف الرابط في App.jsx وغير ARAMCO_ENABLED = true في Menu.jsx
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
@@ -6,10 +9,10 @@ import { db } from "../firebase/config";
 import { useLang } from "../context/LanguageContext";
 import { tr } from "../i18n/translations";
 
-import ryal      from "../assets/images/ryal.png";
-import menuLogo  from "../assets/images/mostakanMain.png";
-import header    from "../assets/images/menuHeader2.mp4";
-import Footer    from "../components/layout/Footer";
+import ryal     from "../assets/images/ryal.png";
+import menuLogo from "../assets/images/mostakanMain.png";
+import header   from "../assets/images/menuHeader2.mp4";
+import Footer   from "../components/layout/Footer";
 
 import karkadieh from "../assets/images/drinks/karkadieh.webp";
 import kho5      from "../assets/images/drinks/5o5.webp";
@@ -29,12 +32,9 @@ import z3tr      from "../assets/images/food/z3tr2.webp";
 import cakeWall  from "../assets/images/food/cakeWall.webp";
 import baked     from "../assets/images/food/baked.webp";
 
-// ── 🔧 غيّره true لما يطلبه العميل ──
-const ARAMCO_ENABLED = false;
-
 const catNameMap = {
   "شاي مثلج": "cat_cold", "شاي ساخن": "cat_hot",
-  "مأكولات":  "cat_food", "شاي مختص": "cat_offers",
+  "مأكولات": "cat_food",  "شاي مختص": "cat_offers",
 };
 
 const prodTransMap = {
@@ -56,41 +56,15 @@ const prodTransMap = {
   "مكسرات":              { nameKey: "prod_nuts",      descKey: "desc_nuts"      },
 };
 
+// الأصناف الثابتة لأرامكو — أضف أو عدل حسب ما يطلبه العميل
 const staticCategories = [
-  { id: "cold",   name: "شاي مثلج", imageUrl: karka1,   branch: "main" },
-  { id: "hot",    name: "شاي ساخن", imageUrl: qory,     branch: "main" },
-  { id: "food",   name: "مأكولات",  imageUrl: cakeWall, branch: "main" },
-  { id: "offers", name: "شاي مختص", imageUrl: whiteTea, branch: "main" },
+  { id: "cold",   name: "شاي مثلج", imageUrl: karka1,   branch: "aramco" },
+  { id: "hot",    name: "شاي ساخن", imageUrl: qory,     branch: "aramco" },
+  { id: "food",   name: "مأكولات",  imageUrl: cakeWall, branch: "aramco" },
+  { id: "offers", name: "شاي مختص", imageUrl: whiteTea, branch: "aramco" },
 ];
 
-const staticItems = {
-  "شاي مثلج": [
-    { id:"s1", name:"شاي الكركديه المثلج", desc:"شاي كركديه بارد ومنعش",     price:19,           cal:81,  img:karkadieh },
-    { id:"s2", name:"شاي الخوخ المثلج",    desc:"شاي خوخ بارد ومنعش",       price:19,           cal:75,  img:kho5      },
-    { id:"s3", name:"شاي الليمون المثلج",  desc:"شاي ليمون بارد ومنعش",     price:19,           cal:89,  img:lemon     },
-    { id:"s4", name:"ماتشا لاتيه",         desc:"مذاق الماتشا الأصلي",       price:22,           cal:150, img:matcha    },
-  ],
-  "شاي مختص": [
-    { id:"s5", name:"الشاي الأبيض",  desc:"شاي أبيض عضوي",  price:12, cal:2, img:whiteTea },
-    { id:"s6", name:"الشاي الأخضر", desc:"شاي أخضر عضوي",  price:12, cal:1, img:whiteTea },
-  ],
-  "شاي ساخن": [
-    { id:"s7",  name:"قوري شاي", desc:"شاي خادر يقدم بقوري",     price:29,           cal:5,   img:qory  },
-    { id:"s8",  name:"شاي",      desc:"شاي خادر بنكهته الأصيلة", price:"6 / 8 / 10", cal:1,   img:tea   },
-    { id:"s10", name:"كرك",      desc:"كرك غني بنكهته الأصلية",  price:"10 / 12",    cal:250, img:karak },
-  ],
-  "مأكولات": [
-    { id:"s11", name:"تارت اللوز",     desc:"تارت اللوز بلمسة متقنة ونكهة متوازنة",                price:18, cal:400, img:tart     },
-    { id:"s13", name:"براونيز",        desc:"شوكلاتة بطعمها الفريد",                               price:17, cal:320, img:choclete },
-    { id:"s14", name:"سكونز",          desc:"بسكوت بريطاني بالجبن والمربى",                        price:14, cal:230, img:cake     },
-    { id:"s15", name:"سينامون بايتس", desc:"سينامون طري يُحضَّر بإتقان ليكمل لحظاتكم المميزة",    price:25, cal:460, img:senabon  },
-    { id:"s16", name:"مخبوزات",       desc:"زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",               price:9,  cal:350, img:baked    },
-    { id:"s17", name:"كيكة الزعتر",   desc:"كيكة زعتر بحشوة الجبن",                               price:9,  cal:140, img:z3tr     },
-    { id:"s18", name:"مكسرات",        desc:"مكسرات مشكلة",                                         price:8,  cal:160, img:nuts     },
-  ],
-};
-
-export default function Menu() {
+export default function AramcoMenu() {
   const { lang } = useLang();
   const [activeCategory, setActiveCategory] = useState(null);
   const [fbCategories, setFbCategories]     = useState([]);
@@ -99,13 +73,18 @@ export default function Menu() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const catsSnap = await getDocs(collection(db, "categories"));
-        const catsData = catsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const catsData = catsSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .filter((c) => c.branch === "aramco" || c.branch === "both");
         catsData.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
         const prodsSnap = await getDocs(collection(db, "products"));
-        const prodsData = prodsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const prodsData = prodsSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .filter((p) => p.branch === "aramco" || p.branch === "both");
 
         const grouped = {};
         catsData.forEach((cat) => {
@@ -122,25 +101,19 @@ export default function Menu() {
     fetchData();
   }, []);
 
-  // فلتر الفرع الرئيسي فقط
-  const filterMain = (item) =>
-    item.branch === "main" || item.branch === "both" || !item.branch;
-
-  const allFbCats = fbCategories.filter(filterMain).map((fbCat) => {
+  // دمج الأصناف
+  const fbCatNames    = fbCategories.map((c) => c.name);
+  const allFbCats     = fbCategories.map((fbCat) => {
     const staticCat = staticCategories.find((s) => s.name === fbCat.name);
     return { ...fbCat, imageUrl: fbCat.imageUrl || staticCat?.imageUrl || "" };
   });
-  const fbCatNames    = fbCategories.map((c) => c.name);
   const extraStatic   = staticCategories.filter((c) => !fbCatNames.includes(c.name));
   const allCategories = [...allFbCats, ...extraStatic];
 
+  // دمج المنتجات — أرامكو فقط، بدون بيانات ثابتة (كلها من الداشبورد)
   const allProducts = {};
   allCategories.forEach((cat) => {
-    const staticProds    = staticItems[cat.name] || [];
-    const fbProds        = (fbProducts[cat.name] || []).filter(filterMain);
-    const fbNames        = fbProds.map((p) => p.name);
-    const filteredStatic = staticProds.filter((p) => !fbNames.includes(p.name));
-    allProducts[cat.name] = [...filteredStatic, ...fbProds];
+    allProducts[cat.name] = fbProducts[cat.name] || [];
   });
 
   const catLabel = (cat)  => { const k = catNameMap[cat.name];   return k ? tr(k, lang) : cat.name; };
@@ -165,20 +138,19 @@ export default function Menu() {
             <img src={menuLogo} alt="menu logo" loading="lazy" className="w-20 rounded-full sm:w-24 md:w-28 object-contain" />
           </Link>
           <h1 className="text-2xl sm:text-3xl font-bold text-white">{tr("menu_title", lang)}</h1>
+          <span className="text-sm text-white/80 bg-black/30 px-3 py-0.5 rounded-full">فرع أرامكو 🏭</span>
         </div>
       </div>
 
-      {/* 🔧 زر فرع أرامكو — يظهر فقط لما ARAMCO_ENABLED = true */}
-      {ARAMCO_ENABLED && (
-        <div className="flex justify-center py-2 bg-white border-b">
-          <Link
-            to="/aramco"
-            className="text-sm font-bold text-[var(--secColor)] bg-[var(--trdColor)] px-5 py-1.5 rounded-full hover:bg-[var(--secColor)] hover:text-white transition"
-          >
-            🏭 منيو فرع أرامكو
-          </Link>
-        </div>
-      )}
+      {/* زر الرجوع للرئيسي */}
+      <div className="flex justify-center py-2 bg-white border-b">
+        <Link
+          to="/menu"
+          className="text-sm text-[var(--secColor)] font-bold hover:underline"
+        >
+          ← الفرع الرئيسي
+        </Link>
+      </div>
 
       {/* Category Bar */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">

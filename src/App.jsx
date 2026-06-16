@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
+import AramcoMenu from "./pages/AramcoMenu";
 import MigrateData from "./pages/MigrateData";
 import Navbar from "./components/layout/Navbar";
 
@@ -35,6 +36,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/aramco" element={<AramcoMenu />} />
         <Route path="/migrate" element={<MigrateData />} />
       </Routes>
     </>
