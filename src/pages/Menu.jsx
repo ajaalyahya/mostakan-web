@@ -30,7 +30,7 @@ import cakeWall  from "../assets/images/food/cakeWall.webp";
 import baked     from "../assets/images/food/baked.webp";
 
 // ── 🔧 غيّره true لما يطلبه العميل ──
-const ARAMCO_ENABLED = false;
+const ARAMCO_ENABLED = true;
 
 const catNameMap = {
   "شاي مثلج": "cat_cold", "شاي ساخن": "cat_hot",
@@ -65,17 +65,17 @@ const staticCategories = [
 
 const staticItems = {
   "شاي مثلج": [
-    { id:"s1", name:"شاي الكركديه المثلج", desc:"شاي كركديه بارد ومنعش",     price:19,           cal:81,  img:karkadieh },
-    { id:"s2", name:"شاي الخوخ المثلج",    desc:"شاي خوخ بارد ومنعش",       price:19,           cal:75,  img:kho5      },
-    { id:"s3", name:"شاي الليمون المثلج",  desc:"شاي ليمون بارد ومنعش",     price:19,           cal:89,  img:lemon     },
-    { id:"s4", name:"ماتشا لاتيه",         desc:"مذاق الماتشا الأصلي",       price:22,           cal:150, img:matcha    },
+    { id:"s1", name:"شاي الكركديه المثلج", desc:"شاي كركديه بارد ومنعش",     price:19,          cal:81,  img:karkadieh },
+    { id:"s2", name:"شاي الخوخ المثلج",    desc:"شاي خوخ بارد ومنعش",       price:19,          cal:75,  img:kho5      },
+    { id:"s3", name:"شاي الليمون المثلج",  desc:"شاي ليمون بارد ومنعش",     price:19,          cal:89,  img:lemon     },
+    { id:"s4", name:"ماتشا لاتيه",         desc:"مذاق الماتشا الأصلي",       price:22,          cal:150, img:matcha    },
   ],
   "شاي مختص": [
     { id:"s5", name:"الشاي الأبيض",  desc:"شاي أبيض عضوي",  price:12, cal:2, img:whiteTea },
     { id:"s6", name:"الشاي الأخضر", desc:"شاي أخضر عضوي",  price:12, cal:1, img:whiteTea },
   ],
   "شاي ساخن": [
-    { id:"s7",  name:"قوري شاي", desc:"شاي خادر يقدم بقوري",     price:29,           cal:5,   img:qory  },
+    { id:"s7",  name:"قوري شاي", desc:"شاي خادر يقدم بقوري",     price:29,          cal:5,   img:qory  },
     { id:"s8",  name:"شاي",      desc:"شاي خادر بنكهته الأصيلة", price:"6 / 8 / 10", cal:1,   img:tea   },
     { id:"s10", name:"كرك",      desc:"كرك غني بنكهته الأصلية",  price:"10 / 12",    cal:250, img:karak },
   ],
@@ -86,7 +86,7 @@ const staticItems = {
     { id:"s15", name:"سينامون بايتس", desc:"سينامون طري يُحضَّر بإتقان ليكمل لحظاتكم المميزة",    price:25, cal:460, img:senabon  },
     { id:"s16", name:"مخبوزات",       desc:"زعتر، لبنة، لبنة زعتر، لبنة عسل، جبن",               price:9,  cal:350, img:baked    },
     { id:"s17", name:"كيكة الزعتر",   desc:"كيكة زعتر بحشوة الجبن",                               price:9,  cal:140, img:z3tr     },
-    { id:"s18", name:"مكسرات",        desc:"مكسرات مشكلة",                                         price:8,  cal:160, img:nuts     },
+    { id:"s18", name:"مكسرات",        desc:"مكسرات مشكلة",                                       price:8,  cal:160, img:nuts     },
   ],
 };
 
@@ -143,9 +143,35 @@ export default function Menu() {
     allProducts[cat.name] = [...filteredStatic, ...fbProds];
   });
 
-  const catLabel = (cat)  => { const k = catNameMap[cat.name];   return k ? tr(k, lang) : cat.name; };
-  const prodName = (item) => { const m = prodTransMap[item.name]; return m ? tr(m.nameKey, lang) : item.name; };
-  const prodDesc = (item) => { const m = prodTransMap[item.name]; return m ? tr(m.descKey, lang) : item.desc; };
+  const catLabel = (cat) => {
+    if (cat.nameAr || cat.nameEn) {
+      return lang === "ar"
+        ? cat.nameAr || cat.nameEn
+        : cat.nameEn || cat.nameAr;
+    }
+    const k = catNameMap[cat.name];
+    return k ? tr(k, lang) : cat.name;
+  };
+
+  const prodName = (item) => {
+    if (item.nameAr || item.nameEn) {
+      return lang === "ar"
+        ? item.nameAr || item.nameEn
+        : item.nameEn || item.nameAr;
+    }
+    const m = prodTransMap[item.name];
+    return m ? tr(m.nameKey, lang) : item.name;
+  };
+
+  const prodDesc = (item) => {
+    if (item.descAr || item.descEn) {
+      return lang === "ar"
+        ? item.descAr || item.descEn
+        : item.descEn || item.descAr;
+    }
+    const m = prodTransMap[item.name];
+    return m ? tr(m.descKey, lang) : item.desc;
+  };
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
@@ -154,31 +180,35 @@ export default function Menu() {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full relative min-h-screen">
 
       {/* Header */}
-      <div className="relative h-40 sm:h-48 md:h-56 w-full overflow-hidden">
+      <div className="relative h-48 sm:h-56 md:h-64 w-full overflow-hidden">
         <video src={header} className="h-full w-full object-cover object-top scale-105 transition-transform duration-[20000ms] ease-in-out" autoPlay loop muted playsInline />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 z-10 p-2">
           <Link to="/" className="inline-block transition">
-            <img src={menuLogo} alt="menu logo" loading="lazy" className="w-20 rounded-full sm:w-24 md:w-28 object-contain" />
+            <img src={menuLogo} alt="menu logo" loading="lazy" className="w-16 sm:w-20 md:w-24 rounded-full object-contain" />
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">{tr("menu_title", lang)}</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{tr("menu_title", lang)}</h1>
+          
+          <span className="text-xs sm:text-sm text-white/80 bg-black/40 px-3 py-0.5 rounded-full border border-white/10">
+            للفرع الرئيسي
+          </span>
+
+          {/* 🏢 زر أرامكو للشاشات الكبيرة (Desktop) — مصغر وغير ملفت */}
+          {ARAMCO_ENABLED && (
+            <Link
+              to="/aramco"
+              className="hidden sm:inline-flex items-center gap-1.5 mt-1 text-[11px] text-white/70 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 transition-all duration-200"
+            >
+              <span>🏢</span>
+              <span>الانتقال إلى قائمة فرع أرامكو</span>
+              <span className="rtl:rotate-180 text-[9px] opacity-70">➔</span>
+            </Link>
+          )}
         </div>
       </div>
-
-      {/* 🔧 زر فرع أرامكو — يظهر فقط لما ARAMCO_ENABLED = true */}
-      {ARAMCO_ENABLED && (
-        <div className="flex justify-center py-2 bg-white border-b">
-          <Link
-            to="/aramco"
-            className="text-sm font-bold text-[var(--secColor)] bg-[var(--trdColor)] px-5 py-1.5 rounded-full hover:bg-[var(--secColor)] hover:text-white transition"
-          >
-            🏭 منيو فرع أرامكو
-          </Link>
-        </div>
-      )}
 
       {/* Category Bar */}
       <div className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
@@ -201,7 +231,7 @@ export default function Menu() {
       </div>
 
       {/* Content */}
-      <div className="py-4 px-4 pb-10">
+      <div className="py-4 px-4 pb-28 sm:pb-10">
         {activeCategory === null ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
             {allCategories.map((cat) => (
@@ -257,6 +287,32 @@ export default function Menu() {
           </>
         )}
       </div>
+
+      {/* 🏢 زر أرامكو العائم - بالجوال في الأسفل تماماً */}
+      {ARAMCO_ENABLED && (
+        <div className="sm:hidden fixed bottom-6 right-6 z-40 w-[45%] max-w-[260px]">
+          <Link
+            to="/aramco"
+            className="flex items-center justify-between bg-gray-900/95 text-white backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-white/20 active:scale-95 transition-all group"
+          >
+            <div className="flex items-center gap-1.5">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--secColor)] text-white text-xs shadow-sm flex-shrink-0">
+                🏢
+              </span>
+              <div className="flex flex-col text-right">
+                <span className="text-[8.5px] text-gray-300 leading-none">جاينا من أرامكو؟</span>
+                <span className="text-[11px] font-bold text-white mt-0.5 whitespace-nowrap">قائمة فرع أرامكو</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-0.5 text-[9.5px] font-semibold bg-white/10 px-2 py-0.5 rounded-full flex-shrink-0">
+              <span>عرض</span>
+              <span className="rtl:rotate-180">➔</span>
+            </div>
+          </Link>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

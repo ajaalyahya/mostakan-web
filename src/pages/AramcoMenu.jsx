@@ -1,7 +1,4 @@
 // src/pages/AramcoMenu.jsx
-// 🔧 هذي الصفحة عندك بس — مو مربوطة في الموقع الحالي
-// لما العميل يطلبها: أضف الرابط في App.jsx وغير ARAMCO_ENABLED = true في Menu.jsx
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
@@ -9,10 +6,10 @@ import { db } from "../firebase/config";
 import { useLang } from "../context/LanguageContext";
 import { tr } from "../i18n/translations";
 
-import ryal     from "../assets/images/ryal.png";
-import menuLogo from "../assets/images/mostakanMain.png";
-import header   from "../assets/images/menuHeader2.mp4";
-import Footer   from "../components/layout/Footer";
+import ryal      from "../assets/images/ryal.png";
+import menuLogo  from "../assets/images/mostakanMain.png";
+import header    from "../assets/images/menuHeader2.mp4";
+import Footer    from "../components/layout/Footer";
 
 import karkadieh from "../assets/images/drinks/karkadieh.webp";
 import kho5      from "../assets/images/drinks/5o5.webp";
@@ -56,7 +53,6 @@ const prodTransMap = {
   "مكسرات":              { nameKey: "prod_nuts",      descKey: "desc_nuts"      },
 };
 
-// الأصناف الثابتة لأرامكو — أضف أو عدل حسب ما يطلبه العميل
 const staticCategories = [
   { id: "cold",   name: "شاي مثلج", imageUrl: karka1,   branch: "aramco" },
   { id: "hot",    name: "شاي ساخن", imageUrl: qory,     branch: "aramco" },
@@ -101,7 +97,6 @@ export default function AramcoMenu() {
     fetchData();
   }, []);
 
-  // دمج الأصناف
   const fbCatNames    = fbCategories.map((c) => c.name);
   const allFbCats     = fbCategories.map((fbCat) => {
     const staticCat = staticCategories.find((s) => s.name === fbCat.name);
@@ -110,15 +105,40 @@ export default function AramcoMenu() {
   const extraStatic   = staticCategories.filter((c) => !fbCatNames.includes(c.name));
   const allCategories = [...allFbCats, ...extraStatic];
 
-  // دمج المنتجات — أرامكو فقط، بدون بيانات ثابتة (كلها من الداشبورد)
   const allProducts = {};
   allCategories.forEach((cat) => {
     allProducts[cat.name] = fbProducts[cat.name] || [];
   });
 
-  const catLabel = (cat)  => { const k = catNameMap[cat.name];   return k ? tr(k, lang) : cat.name; };
-  const prodName = (item) => { const m = prodTransMap[item.name]; return m ? tr(m.nameKey, lang) : item.name; };
-  const prodDesc = (item) => { const m = prodTransMap[item.name]; return m ? tr(m.descKey, lang) : item.desc; };
+  const catLabel = (cat) => {
+    if (cat.nameAr || cat.nameEn) {
+      return lang === "ar"
+        ? cat.nameAr || cat.nameEn
+        : cat.nameEn || cat.nameAr;
+    }
+    const k = catNameMap[cat.name];
+    return k ? tr(k, lang) : cat.name;
+  };
+
+  const prodName = (item) => {
+    if (item.nameAr || item.nameEn) {
+      return lang === "ar"
+        ? item.nameAr || item.nameEn
+        : item.nameEn || item.nameAr;
+    }
+    const m = prodTransMap[item.name];
+    return m ? tr(m.nameKey, lang) : item.name;
+  };
+
+  const prodDesc = (item) => {
+    if (item.descAr || item.descEn) {
+      return lang === "ar"
+        ? item.descAr || item.descEn
+        : item.descEn || item.descAr;
+    }
+    const m = prodTransMap[item.name];
+    return m ? tr(m.descKey, lang) : item.desc;
+  };
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
@@ -127,29 +147,32 @@ export default function AramcoMenu() {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full relative min-h-screen">
 
       {/* Header */}
-      <div className="relative h-40 sm:h-48 md:h-56 w-full overflow-hidden">
+      <div className="relative h-48 sm:h-56 md:h-64 w-full overflow-hidden">
         <video src={header} className="h-full w-full object-cover object-top scale-105 transition-transform duration-[20000ms] ease-in-out" autoPlay loop muted playsInline />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 z-10 p-2">
           <Link to="/" className="inline-block transition">
-            <img src={menuLogo} alt="menu logo" loading="lazy" className="w-20 rounded-full sm:w-24 md:w-28 object-contain" />
+            <img src={menuLogo} alt="menu logo" loading="lazy" className="w-16 sm:w-20 md:w-24 rounded-full object-contain" />
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">{tr("menu_title", lang)}</h1>
-          <span className="text-sm text-white/80 bg-black/30 px-3 py-0.5 rounded-full">فرع أرامكو 🏭</span>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{tr("menu_title", lang)}</h1>
+          
+          <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-white/90 bg-black/50 backdrop-blur-sm px-3.5 py-1 rounded-full border border-white/20 shadow-sm">
+  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+     Aramco Branch
+</span>
+          {/* 🏛️ زر الفرع الرئيسي للشاشات الكبيرة (Desktop) — حجم أصغر وأهدأ غير ملفت */}
+          <Link
+            to="/menu"
+            className="hidden sm:inline-flex items-center gap-1.5 mt-1 text-[11px] text-white/70 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 transition-all duration-200"
+          >
+            <span>📋</span>
+            <span>Main Branch  </span>
+            <span className="rtl:rotate-0 text-[9px] opacity-70">➔</span>
+          </Link>
         </div>
-      </div>
-
-      {/* زر الرجوع للرئيسي */}
-      <div className="flex justify-center py-2 bg-white border-b">
-        <Link
-          to="/menu"
-          className="text-sm text-[var(--secColor)] font-bold hover:underline"
-        >
-          ← الفرع الرئيسي
-        </Link>
       </div>
 
       {/* Category Bar */}
@@ -173,7 +196,7 @@ export default function AramcoMenu() {
       </div>
 
       {/* Content */}
-      <div className="py-4 px-4 pb-10">
+      <div className="py-4 px-4 pb-28 sm:pb-10">
         {activeCategory === null ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
             {allCategories.map((cat) => (
@@ -229,6 +252,29 @@ export default function AramcoMenu() {
           </>
         )}
       </div>
+
+      {/* 🏪 زر الفرع الرئيسي العائم - بالجوال في الأسفل تماماً (لم يتم تعديله) */}
+      <div className="sm:hidden fixed bottom-6 right-6 z-40 w-[45%] max-w-[260px]">
+        <Link
+          to="/menu"
+          className="flex items-center justify-between bg-gray-900/95 text-white backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-white/20 active:scale-95 transition-all group"
+        >
+          <div className="flex items-center gap-1.5">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--secColor)] text-white text-xs shadow-sm flex-shrink-0">
+              📋
+            </span>
+            <div className="flex flex-col text-right">
+              <span className="text-[11px] font-bold text-white mt-0.5 whitespace-nowrap">Main Branch</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-0.5 text-[9.5px] font-semibold bg-white/10 px-2 py-0.5 rounded-full flex-shrink-0">
+            <span>Move</span>
+            <span className="rtl:rotate-0">➔</span>
+          </div>
+        </Link>
+      </div>
+
       <Footer />
     </div>
   );
