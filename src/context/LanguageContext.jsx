@@ -5,10 +5,11 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [lang, setLang] = useState("ar");
+
   const toggleLang = () => setLang((prev) => (prev === "ar" ? "en" : "ar"));
 
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggleLang }}>
       <div dir={lang === "ar" ? "rtl" : "ltr"} lang={lang}>
         {children}
       </div>
