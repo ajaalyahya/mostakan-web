@@ -63,18 +63,17 @@ const staticCategories = [
 ];
 
 export default function AramcoMenu() {
-  const { lang, setLang, toggleLang } = useLang();
+  const { lang, setLang } = useLang();
   const [activeCategory, setActiveCategory] = useState(null);
   const [fbCategories, setFbCategories]     = useState([]);
   const [fbProducts, setFbProducts]         = useState({});
   const [loading, setLoading]               = useState(true);
 
-  // ضبط اللغة الافتراضية للإنجليزية عند تحميل المكون لمرة واحدة فقط
   useEffect(() => {
     if (setLang) {
       setLang("en");
     }
-  }, []); // مصروفة مصفوفة الاعتماد فارغة لتجنب التكرار اللانهائي
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -196,9 +195,9 @@ export default function AramcoMenu() {
           </h1>
 
           <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-white/90 bg-black/50 backdrop-blur-sm px-3.5 py-1 rounded-full border border-white/20 shadow-sm">
-  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-     Aramco Branch
-</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Aramco Branch
+          </span>
 
           <Link
             to="/menu"
@@ -295,6 +294,16 @@ export default function AramcoMenu() {
                       <div className="text-[10px] text-gray-400">
                         {item.cal} {tr("menu_calories", lang)}
                       </div>
+
+                      {/* 🌟 عرض الميزات الرياضية والصحية للفرع للجوال 🌟 */}
+                      {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
+                        <div className="flex flex-wrap justify-center gap-1 pt-1.5 border-t border-gray-100 text-[9.5px] text-gray-600 font-medium">
+                          {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} min walk</span>}
+                          {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} min run</span>}
+                          {Boolean(item.caffeine) && <span>☕ {item.caffeine} mg caffeine</span>}
+                        </div>
+                      )}
+
                     </div>
                   </div>
                 </div>
@@ -335,6 +344,16 @@ export default function AramcoMenu() {
                         {item.cal} {tr("menu_calories", lang)}
                       </div>
                     </div>
+
+                    {/* 🌟 عرض الميزات الرياضية والصحية للفرع للدسكتوب 🌟 */}
+                    {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
+                      <div className="flex flex-wrap items-center gap-2 pt-2 mt-1 border-t border-gray-100 text-xs text-gray-600 font-medium">
+                        {Boolean(item.walkMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🚶‍♂️ {item.walkMinutes} min walk</span>}
+                        {Boolean(item.runMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🏃‍♂️ {item.runMinutes} min run</span>}
+                        {Boolean(item.caffeine) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">☕ {item.caffeine} mg caffeine</span>}
+                      </div>
+                    )}
+
                   </div>
                 </div>
               ))}
