@@ -132,13 +132,24 @@ export default function Menu() {
   const extraStatic   = staticCategories.filter((c) => !fbCatNames.includes(c.name));
   const allCategories = [...allFbCats, ...extraStatic];
 
+  // 🛠️ الدمج المعدل لضمان أخذ الحقول الصحية القادمة من Firebase
   const allProducts = {};
   allCategories.forEach((cat) => {
-    const staticProds    = staticItems[cat.name] || [];
-    const fbProds        = (fbProducts[cat.name] || []).filter(filterMain);
-    const fbNames        = fbProds.map((p) => p.name);
-    const filteredStatic = staticProds.filter((p) => !fbNames.includes(p.name));
-    allProducts[cat.name] = [...filteredStatic, ...fbProds];
+    const staticProds = staticItems[cat.name] || [];
+    const fbProds     = (fbProducts[cat.name] || []).filter(filterMain);
+
+    const mergedProds = fbProds.map((fbItem) => {
+      const staticMatch = staticProds.find((s) => s.name === fbItem.name);
+      return {
+        ...(staticMatch || {}),
+        ...fbItem, // تعطى الأولوية لبيانات Firebase
+      };
+    });
+
+    const fbNames = fbProds.map((p) => p.name);
+    const remainingStatic = staticProds.filter((p) => !fbNames.includes(p.name));
+
+    allProducts[cat.name] = [...mergedProds, ...remainingStatic];
   });
 
   const catLabel = (cat) => {
@@ -254,12 +265,14 @@ export default function Menu() {
                       </div>
                       <div className="text-[10px] text-gray-400">{item.cal} {tr("menu_calories", lang)}</div>
                       
-                      {/* 🌟 عرض المعلومات الصحية والرياضية للمستخدِم للجوال 🌟 */}
-                      <div className="flex flex-wrap justify-center gap-1 pt-1 border-t border-gray-100 text-[9px] text-gray-600">
-                        {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} د مشي</span>}
-                        {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} د جري</span>}
-                        {Boolean(item.caffeine) && <span>☕ {item.caffeine} ملجم كافيين</span>}
-                      </div>
+                      {/* 🌟 عرض المعلومات الصحية والرياضية للجوال 🌟 */}
+                      {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
+                        <div className="flex flex-wrap justify-center gap-1 pt-1.5 border-t border-gray-100 text-[9.5px] text-gray-600 font-medium">
+                          {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} د مشي</span>}
+                          {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} د جري</span>}
+                          {Boolean(item.caffeine) && <span>☕ {item.caffeine} ملجم</span>}
+                        </div>
+                      )}
 
                     </div>
                   </div>
@@ -284,9 +297,9 @@ export default function Menu() {
                       </div>
                     </div>
 
-                    {/* 🌟 عرض المعلومات الصحية والرياضية للمستخدِم للدسكتاوب 🌟 */}
+                    {/* 🌟 عرض المعلومات الصحية والرياضية للدسكتاوب 🌟 */}
                     {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
-                      <div className="flex flex-wrap items-center gap-2 pt-2 mt-1 border-t border-gray-100 text-xs text-gray-600">
+                      <div className="flex flex-wrap items-center gap-2 pt-2 mt-1 border-t border-gray-100 text-xs text-gray-600 font-medium">
                         {Boolean(item.walkMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🚶‍♂️ {item.walkMinutes} دقيقة مشي</span>}
                         {Boolean(item.runMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🏃‍♂️ {item.runMinutes} دقيقة جري</span>}
                         {Boolean(item.caffeine) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">☕ {item.caffeine} ملجم كافيين</span>}
