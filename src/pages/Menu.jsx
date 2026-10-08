@@ -29,7 +29,6 @@ import z3tr      from "../assets/images/food/z3tr2.webp";
 import cakeWall  from "../assets/images/food/cakeWall.webp";
 import baked     from "../assets/images/food/baked.webp";
 
-// ── 🔧 غيّره true لما يطلبه العميل ──
 const ARAMCO_ENABLED = true;
 
 const catNameMap = {
@@ -122,7 +121,6 @@ export default function Menu() {
     fetchData();
   }, []);
 
-  // فلتر الفرع الرئيسي فقط
   const filterMain = (item) =>
     item.branch === "main" || item.branch === "both" || !item.branch;
 
@@ -196,7 +194,6 @@ export default function Menu() {
             للفرع الرئيسي
           </span>
 
-          {/* 🏢 زر أرامكو للشاشات الكبيرة (Desktop) — مصغر وغير ملفت */}
           {ARAMCO_ENABLED && (
             <Link
               to="/aramco"
@@ -256,6 +253,14 @@ export default function Menu() {
                         {item.price}<img src={ryal} loading="lazy" alt="SAR" className="h-3 w-3" />
                       </div>
                       <div className="text-[10px] text-gray-400">{item.cal} {tr("menu_calories", lang)}</div>
+                      
+                      {/* 🌟 عرض المعلومات الصحية والرياضية للمستخدِم للجوال 🌟 */}
+                      <div className="flex flex-wrap justify-center gap-1 pt-1 border-t border-gray-100 text-[9px] text-gray-600">
+                        {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} د مشي</span>}
+                        {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} د جري</span>}
+                        {Boolean(item.caffeine) && <span>☕ {item.caffeine} ملجم كافيين</span>}
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -274,8 +279,20 @@ export default function Menu() {
                       <div className="font-bold text-lg sm:text-xl text-[var(--secColor)] flex items-center gap-1">
                         {item.price}<img src={ryal} loading="lazy" alt="SAR" className="h-4 w-4" />
                       </div>
-                      <div className="text-[10px] sm:text-xs text-gray-400">{item.cal} {tr("menu_calories", lang)}</div>
+                      <div className="text-right">
+                        <div className="text-[10px] sm:text-xs text-gray-400">{item.cal} {tr("menu_calories", lang)}</div>
+                      </div>
                     </div>
+
+                    {/* 🌟 عرض المعلومات الصحية والرياضية للمستخدِم للدسكتاوب 🌟 */}
+                    {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
+                      <div className="flex flex-wrap items-center gap-2 pt-2 mt-1 border-t border-gray-100 text-xs text-gray-600">
+                        {Boolean(item.walkMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🚶‍♂️ {item.walkMinutes} دقيقة مشي</span>}
+                        {Boolean(item.runMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🏃‍♂️ {item.runMinutes} دقيقة جري</span>}
+                        {Boolean(item.caffeine) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">☕ {item.caffeine} ملجم كافيين</span>}
+                      </div>
+                    )}
+
                   </div>
                 </div>
               ))}
