@@ -6,61 +6,10 @@ import { db } from "../firebase/config";
 import { useLang } from "../context/LanguageContext";
 import { tr } from "../i18n/translations";
 
-import ryal      from "../assets/images/ryal.png";
+import ryal     from "../assets/images/ryal.png";
 import menuLogo  from "../assets/images/mostakanMain.png";
 import header    from "../assets/images/menuHeader2.mp4";
 import Footer    from "../components/layout/Footer";
-
-import karkadieh from "../assets/images/drinks/karkadieh.webp";
-import kho5      from "../assets/images/drinks/5o5.webp";
-import lemon     from "../assets/images/drinks/lemon.png";
-import qory      from "../assets/images/drinks/qory-tea.webp";
-import whiteTea  from "../assets/images/drinks/whiteTea.webp";
-import karak     from "../assets/images/drinks/karak.webp";
-import tea       from "../assets/images/drinks/tea.webp";
-import matcha    from "../assets/images/drinks/matcha3.jpg";
-import karka1    from "../assets/images/drinks/karkaWall.webp";
-import cake      from "../assets/images/food/cake.webp";
-import choclete  from "../assets/images/food/choclete.webp";
-import nuts      from "../assets/images/food/nuts.webp";
-import senabon   from "../assets/images/food/senabon.webp";
-import tart      from "../assets/images/food/tart2.webp";
-import z3tr      from "../assets/images/food/z3tr2.webp";
-import cakeWall  from "../assets/images/food/cakeWall.webp";
-import baked     from "../assets/images/food/baked.webp";
-
-const catNameMap = {
-  "شاي مثلج": "cat_cold",
-  "شاي ساخن": "cat_hot",
-  "مأكولات": "cat_food",
-  "شاي مختص": "cat_offers",
-};
-
-const prodTransMap = {
-  "شاي الكركديه المثلج": { nameKey: "prod_karkadieh", descKey: "desc_karkadieh" },
-  "شاي الخوخ المثلج":    { nameKey: "prod_kho5",      descKey: "desc_kho5"      },
-  "شاي الليمون المثلج":  { nameKey: "prod_lemon",     descKey: "desc_lemon"     },
-  "ماتشا لاتيه":         { nameKey: "prod_matcha",    descKey: "desc_matcha"    },
-  "الشاي الأبيض":        { nameKey: "prod_whiteTea",  descKey: "desc_whiteTea"  },
-  "الشاي الأخضر":        { nameKey: "prod_greenTea",  descKey: "desc_greenTea"  },
-  "قوري شاي":            { nameKey: "prod_qory",      descKey: "desc_qory"      },
-  "شاي":                 { nameKey: "prod_tea",       descKey: "desc_tea"       },
-  "كرك":                 { nameKey: "prod_karak",     descKey: "desc_karak"     },
-  "تارت اللوز":          { nameKey: "prod_tart",      descKey: "desc_tart"      },
-  "براونيز":             { nameKey: "prod_brownies",  descKey: "desc_brownies"  },
-  "سكونز":               { nameKey: "prod_scones",    descKey: "desc_scones"    },
-  "سينامون بايتس":       { nameKey: "prod_cinnamon",  descKey: "desc_cinnamon"  },
-  "مخبوزات":             { nameKey: "prod_baked",     descKey: "desc_baked"     },
-  "كيكة الزعتر":         { nameKey: "prod_zatar",     descKey: "desc_zatar"     },
-  "مكسرات":              { nameKey: "prod_nuts",      descKey: "desc_nuts"      },
-};
-
-const staticCategories = [
-  { id: "cold",   name: "شاي مثلج", imageUrl: karka1,   branch: "aramco" },
-  { id: "hot",    name: "شاي ساخن", imageUrl: qory,     branch: "aramco" },
-  { id: "food",   name: "مأكولات",  imageUrl: cakeWall, branch: "aramco" },
-  { id: "offers", name: "شاي مختص", imageUrl: whiteTea, branch: "aramco" },
-];
 
 export default function AramcoMenu() {
   const { lang, setLang } = useLang();
@@ -81,21 +30,24 @@ export default function AramcoMenu() {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // 1. جلب الأقسام الخاصة بفرع أرامكو أو المشتركة أو التي بدون فرع
         const catsSnap = await getDocs(collection(db, "categories"));
         const catsData = catsSnap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
-          .filter((c) => c.branch === "aramco" || c.branch === "both");
+          .filter((c) => c.branch === "aramco" || c.branch === "both" || !c.branch);
         catsData.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
+        // 2. جلب المنتجات الخاصة بفرع أرامكو أو المشتركة أو التي بدون فرع
         const prodsSnap = await getDocs(collection(db, "products"));
         const prodsData = prodsSnap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
-          .filter((p) => p.branch === "aramco" || p.branch === "both");
+          .filter((p) => p.branch === "aramco" || p.branch === "both" || !p.branch);
 
+        // 3. تجميع المنتجات تحت كل قسم بناءً على اسم القسم أو مطابقة الـ category
         const grouped = {};
         catsData.forEach((cat) => {
           grouped[cat.name] = prodsData
-            .filter((p) => p.category === cat.name)
+            .filter((p) => p.category === cat.name || p.categoryId === cat.id)
             .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
         });
 
@@ -117,47 +69,25 @@ export default function AramcoMenu() {
     };
   }, []);
 
-  const fbCatNames    = fbCategories.map((c) => c.name);
-  const allFbCats     = fbCategories.map((fbCat) => {
-    const staticCat = staticCategories.find((s) => s.name === fbCat.name);
-    return { ...fbCat, imageUrl: fbCat.imageUrl || staticCat?.imageUrl || "" };
-  });
-  const extraStatic   = staticCategories.filter((c) => !fbCatNames.includes(c.name));
-  const allCategories = [...allFbCats, ...extraStatic];
-
-  const allProducts = {};
-  allCategories.forEach((cat) => {
-    allProducts[cat.name] = fbProducts[cat.name] || [];
-  });
-
+  // دالة عرض اسم القسم ديناميكياً
   const catLabel = (cat) => {
-    if (cat.nameAr || cat.nameEn) {
-      return lang === "ar"
-        ? cat.nameAr || cat.nameEn
-        : cat.nameEn || cat.nameAr;
-    }
-    const k = catNameMap[cat.name];
-    return k ? tr(k, lang) : cat.name;
+    return lang === "ar"
+      ? cat.nameAr || cat.name || cat.nameEn
+      : cat.nameEn || cat.name || cat.nameAr;
   };
 
+  // دالة عرض اسم المنتج ديناميكياً من فايربيس
   const prodName = (item) => {
-    if (item.nameAr || item.nameEn) {
-      return lang === "ar"
-        ? item.nameAr || item.nameEn
-        : item.nameEn || item.nameAr;
-    }
-    const m = prodTransMap[item.name];
-    return m ? tr(m.nameKey, lang) : item.name;
+    return lang === "ar"
+      ? item.nameAr || item.name || item.nameEn
+      : item.nameEn || item.name || item.nameAr;
   };
 
+  // دالة عرض وصف المنتج ديناميكياً من فايربيس
   const prodDesc = (item) => {
-    if (item.descAr || item.descEn) {
-      return lang === "ar"
-        ? item.descAr || item.descEn
-        : item.descEn || item.descAr;
-    }
-    const m = prodTransMap[item.name];
-    return m ? tr(m.descKey, lang) : item.desc;
+    return lang === "ar"
+      ? item.descAr || item.desc || item.descEn
+      : item.descEn || item.desc || item.descAr;
   };
 
   if (loading) {
@@ -191,12 +121,10 @@ export default function AramcoMenu() {
             />
           </Link>
 
-          {/* العنوان الرئيسي */}
           <span className="text-sm sm:text-base font-bold text-white bg-black/50 backdrop-blur-md px-4 py-1 rounded-full border border-white/20 shadow-lg">
             {lang === "ar" ? "القائمة لفرع أرامكو" : "Aramco Branch Menu"}
           </span>
 
-          {/* 🌾 زر البيج للانتقال للفرع الرئيسي 🌾 */}
           <Link
             to="/menu"
             className="inline-flex items-center gap-2 mt-1 text-xs font-bold text-[#4a3525] bg-[#f5e6d3] hover:bg-[#e8d5c4] px-4 py-1.5 rounded-full shadow-md border border-[#e2cfb9] transition-all duration-200 active:scale-95"
@@ -219,7 +147,7 @@ export default function AramcoMenu() {
           >
             {tr("menu_all", lang)}
           </button>
-          {allCategories.map((cat) => (
+          {fbCategories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.name)}
@@ -239,14 +167,14 @@ export default function AramcoMenu() {
       <div className="py-4 px-4 pb-28 sm:pb-10">
         {activeCategory === null ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
-            {allCategories.map((cat) => (
+            {fbCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.name)}
                 className="overflow-hidden rounded-2xl bg-white shadow"
               >
                 <img
-                  src={cat.imageUrl}
+                  src={cat.imageUrl || cat.img}
                   loading="lazy"
                   alt={catLabel(cat)}
                   className="h-28 sm:h-32 md:h-56 w-full object-cover"
@@ -259,101 +187,55 @@ export default function AramcoMenu() {
           </div>
         ) : (
           <>
-            {/* Mobile View */}
-            <div className="grid grid-cols-2 gap-4 sm:hidden">
-              {(allProducts[activeCategory] || []).map((item) => (
+            {/* Mobile & Desktop Views */}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {(fbProducts[activeCategory] || []).map((item) => (
                 <div
                   key={item.id}
                   className="overflow-hidden rounded-2xl bg-white shadow flex flex-col"
                 >
                   <img
-                    src={item.img}
+                    src={item.img || item.imageUrl}
                     loading="lazy"
                     alt={prodName(item)}
-                    className="h-28 w-full object-cover"
+                    className="h-28 sm:h-40 md:h-56 w-full object-cover"
                   />
                   <div className="p-3 text-center space-y-1 flex flex-col flex-1">
-                    <h3 className="font-semibold text-sm">{prodName(item)}</h3>
-                    <p className="text-[11px] text-gray-500 line-clamp-2 flex-1">
+                    <h3 className="font-semibold text-sm sm:text-base">{prodName(item)}</h3>
+                    <p className="text-[11px] sm:text-sm text-gray-500 line-clamp-2 flex-1">
                       {prodDesc(item)}
                     </p>
                     <div className="mt-auto space-y-1">
-                      <div className="flex justify-center items-center gap-1 font-bold text-[var(--secColor)]">
+                      <div className="flex justify-center items-center gap-1 font-bold text-[var(--secColor)] text-base sm:text-xl">
                         {item.price}
                         <img
                           src={ryal}
                           loading="lazy"
                           alt="SAR"
-                          className="h-3 w-3"
+                          className="h-3 w-3 sm:h-4 sm:w-4"
                         />
                       </div>
-                      <div className="text-[10px] text-gray-400">
-                        {item.cal} {tr("menu_calories", lang)}
-                      </div>
+                      {item.cal && (
+                        <div className="text-[10px] sm:text-xs text-gray-400">
+                          {item.cal} {tr("menu_calories", lang)}
+                        </div>
+                      )}
 
+                      {/* البيانات الرياضية والصحية */}
                       {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
-                        <div className="flex flex-wrap justify-center gap-1 pt-1.5 border-t border-gray-100 text-[9.5px] text-gray-600 font-medium">
+                        <div className="flex flex-wrap justify-center items-center gap-1.5 pt-1.5 mt-1 border-t border-gray-100 text-[10px] sm:text-xs text-gray-600 font-medium">
                           {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} min walk</span>}
                           {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} min run</span>}
                           {Boolean(item.caffeine) && <span>☕ {item.caffeine} mg caffeine</span>}
                         </div>
                       )}
-
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Desktop View */}
-            <div className="hidden sm:grid grid-cols-2 gap-4 lg:grid-cols-3">
-              {(allProducts[activeCategory] || []).map((item) => (
-                <div
-                  key={item.id}
-                  className="overflow-hidden rounded-2xl bg-white shadow"
-                >
-                  <img
-                    src={item.img}
-                    loading="lazy"
-                    className="h-36 sm:h-40 md:h-56 w-full object-cover"
-                    alt={prodName(item)}
-                  />
-                  <div className="p-4 space-y-1 text-right">
-                    <h3 className="font-semibold text-sm sm:text-base">
-                      {prodName(item)}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-500">
-                      {prodDesc(item)}
-                    </p>
-                    <div className="mt-2 flex justify-between items-center">
-                      <div className="font-bold text-lg sm:text-xl text-[var(--secColor)] flex items-center gap-1">
-                        {item.price}
-                        <img
-                          src={ryal}
-                          loading="lazy"
-                          alt="SAR"
-                          className="h-4 w-4"
-                        />
-                      </div>
-                      <div className="text-[10px] sm:text-xs text-gray-400">
-                        {item.cal} {tr("menu_calories", lang)}
-                      </div>
-                    </div>
-
-                    {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
-                      <div className="flex flex-wrap items-center gap-2 pt-2 mt-1 border-t border-gray-100 text-xs text-gray-600 font-medium">
-                        {Boolean(item.walkMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🚶‍♂️ {item.walkMinutes} min walk</span>}
-                        {Boolean(item.runMinutes) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">🏃‍♂️ {item.runMinutes} min run</span>}
-                        {Boolean(item.caffeine) && <span className="bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">☕ {item.caffeine} mg caffeine</span>}
-                      </div>
-                    )}
-
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {(allProducts[activeCategory] || []).length === 0 && (
+            {(fbProducts[activeCategory] || []).length === 0 && (
               <div className="text-center text-gray-400 py-16">
                 {tr("menu_empty", lang)}
               </div>
