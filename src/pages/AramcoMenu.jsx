@@ -6,10 +6,22 @@ import { db } from "../firebase/config";
 import { useLang } from "../context/LanguageContext";
 import { tr } from "../i18n/translations";
 
-import ryal     from "../assets/images/ryal.png";
+import ryal    from "../assets/images/ryal.png";
 import menuLogo  from "../assets/images/mostakanMain.png";
 import header    from "../assets/images/menuHeader2.mp4";
 import Footer    from "../components/layout/Footer";
+
+// قاموس مسببات الحساسية للعملاء (محدث بالكامل ليطابق لوحة التحكم)
+const ALLERGEN_DICT = {
+  dairy: { icon: "🥛", label: "Dairy" },
+  nuts: { icon: "🥜", label: "Nuts" },
+  peanuts: { icon: "🥜", label: "Peanuts" },
+  soy: { icon: "🫘", label: "Soy" },
+  grains: { icon: "🌾", label: "Grains" },
+  sesame: { icon: "⚪", label: "Sesame" },
+  eggs: { icon: "🥚", label: "Eggs" },
+  gluten: { icon: "🌾", label: "Gluten" },
+};
 
 export default function AramcoMenu() {
   const { lang, setLang } = useLang();
@@ -30,20 +42,17 @@ export default function AramcoMenu() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // 1. جلب الأقسام الخاصة بفرع أرامكو أو المشتركة أو التي بدون فرع
         const catsSnap = await getDocs(collection(db, "categories"));
         const catsData = catsSnap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
           .filter((c) => c.branch === "aramco" || c.branch === "both" || !c.branch);
         catsData.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
-        // 2. جلب المنتجات الخاصة بفرع أرامكو أو المشتركة أو التي بدون فرع
         const prodsSnap = await getDocs(collection(db, "products"));
         const prodsData = prodsSnap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
           .filter((p) => p.branch === "aramco" || p.branch === "both" || !p.branch);
 
-        // 3. تجميع المنتجات تحت كل قسم بناءً على اسم القسم أو مطابقة الـ category
         const grouped = {};
         catsData.forEach((cat) => {
           grouped[cat.name] = prodsData
@@ -69,21 +78,18 @@ export default function AramcoMenu() {
     };
   }, []);
 
-  // دالة عرض اسم القسم ديناميكياً
   const catLabel = (cat) => {
     return lang === "ar"
       ? cat.nameAr || cat.name || cat.nameEn
       : cat.nameEn || cat.name || cat.nameAr;
   };
 
-  // دالة عرض اسم المنتج ديناميكياً من فايربيس
   const prodName = (item) => {
     return lang === "ar"
       ? item.nameAr || item.name || item.nameEn
       : item.nameEn || item.name || item.nameAr;
   };
 
-  // دالة عرض وصف المنتج ديناميكياً من فايربيس
   const prodDesc = (item) => {
     return lang === "ar"
       ? item.descAr || item.desc || item.descEn
@@ -187,7 +193,6 @@ export default function AramcoMenu() {
           </div>
         ) : (
           <>
-            {/* Mobile & Desktop Views */}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {(fbProducts[activeCategory] || []).map((item) => (
                 <div
@@ -223,10 +228,30 @@ export default function AramcoMenu() {
 
                       {/* البيانات الرياضية والصحية */}
                       {(Boolean(item.walkMinutes) || Boolean(item.runMinutes) || Boolean(item.caffeine)) && (
-                        <div className="flex flex-wrap justify-center items-center gap-1.5 pt-1.5 mt-1 border-t border-gray-100 text-[10px] sm:text-xs text-gray-600 font-medium">
+                        <div className="flex flex-wrap justify-center items-center gap-1.5 pt-1 mt-1 border-t border-gray-100 text-[10px] sm:text-xs text-gray-600 font-medium">
                           {Boolean(item.walkMinutes) && <span>🚶‍♂️ {item.walkMinutes} min walk</span>}
                           {Boolean(item.runMinutes) && <span>🏃‍♂️ {item.runMinutes} min run</span>}
                           {Boolean(item.caffeine) && <span>☕ {item.caffeine} mg caffeine</span>}
+                        </div>
+                      )}
+
+                      {/* شريط عرض مسببات الحساسية بتصميم مرتب ومتناسق */}
+                      {item.allergens && item.allergens.length > 0 && (
+                        <div className="flex flex-wrap justify-center items-center gap-1 pt-1 mt-1 border-t border-gray-100 text-[10px]">
+                          {item.allergens.map((algId) => {
+                            const alg = ALLERGEN_DICT[algId];
+                            if (!alg) return null;
+                            return (
+                              <span
+                                key={algId}
+                                className="bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded-md border border-amber-200/50 flex items-center gap-1"
+                                title={`Contains ${alg.label}`}
+                              >
+                                <span>{alg.icon}</span>
+                                <span className="font-medium text-[9px]">{alg.label}</span>
+                              </span>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
